@@ -1,0 +1,9 @@
+{
+  "version": "2.0.0",
+  "tasks": [{
+      "label": "style-check",
+      "command": "python3",
+      "args": ["-m", "ruff", "check"],
+      "type": "shell"
+  }]
+}

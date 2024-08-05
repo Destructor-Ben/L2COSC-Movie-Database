@@ -1,0 +1,16 @@
+line-length = 120
+
+[lint]
+preview = true
+
+select = [
+    "F",
+    "E",
+    "W",
+    "I",
+    "N",
+    "D",
+]
+
+# These have compat issues with other rules
+ignore = ["D203", "D213"]

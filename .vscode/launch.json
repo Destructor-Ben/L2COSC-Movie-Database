@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Movie Database",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "mdb.py",
+            "console": "integratedTerminal",
+            "preLaunchTask": "style-check"
+        }
+    ]
+}
