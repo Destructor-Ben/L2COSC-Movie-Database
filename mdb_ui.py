@@ -14,12 +14,40 @@ class Page(Enum):
     SINGLE_MOVIE = "single_movie"
 
 
+# Made from https://patorjk.com/software/taag/#p=display&f=Slant%20Relief&t=MDB
+# Made pretty with this: https://stackoverflow.com/questions/10660435/how-do-i-split-the-definition-of-a-long-string-over-multiple-lines
+LOGO = (
+    r" /\\\\            /\\\\  /\\\\\\\\\\\\     /\\\\\\\\\\\\\         ",
+    r" \/\\\\\\        /\\\\\\ \/\\\////////\\\  \/\\\/////////\\\      ",
+    r"  \/\\\//\\\    /\\\//\\\ \/\\\      \//\\\ \/\\\       \/\\\     ",
+    r"   \/\\\\///\\\/\\\/ \/\\\ \/\\\       \/\\\ \/\\\\\\\\\\\\\\     ",
+    r"    \/\\\  \///\\\/   \/\\\ \/\\\       \/\\\ \/\\\/////////\\\   ",
+    r"     \/\\\    \///     \/\\\ \/\\\       \/\\\ \/\\\       \/\\\  ",
+    r"      \/\\\             \/\\\ \/\\\       /\\\  \/\\\       \/\\\ ",
+    r"       \/\\\             \/\\\ \/\\\\\\\\\\\\/   \/\\\\\\\\\\\\\/ ",
+    r"        \///              \///  \////////////     \/////////////  ",
+)
+
+LOGO_WIDTH = len(LOGO[0])
+LOGO_HEIGHT = len(LOGO)
+
 # https://en.wikipedia.org/wiki/Box-drawing_characters
 HORIZONTAL_BAR_CHAR = "─"
 VERTICAL_BAR_CHAR = "│"
 PLUS_BAR_CHAR = "┼"
 CORNER_BAR_CHARS = "┌┐└┘"
 T_BAR_CHARS = "├┤┬┴"
+
+COLOUR_GREEN = (43, 255, 100)
+COLOUR_YELLOW = (255, 245, 100)
+
+COMMON_COMMANDS = {
+    "help": None
+}
+
+PAGES = {
+    
+}
 
 # TODO: make a dictionary of pages and commands
 
@@ -81,7 +109,29 @@ def render_current_page():
 
 def home():
     """Render the home page."""
-    console.write(2, 1, "Home")
+    # Coords of the top left of the logo
+    logo_x = 1
+    logo_y = 2
+
+    # Draw the logo
+    for x in range(LOGO_WIDTH):
+        for y in range(LOGO_HEIGHT):
+            # Y before X in this because the rows are ordered first
+            console.set(logo_x + x, logo_y + y, LOGO[y][x], COLOUR_GREEN)
+
+    # Print name
+    console.write(logo_x + 9, logo_y + 1 + LOGO_HEIGHT, "Movie Data Base")
+
+    # Draw the list of commands
+    command_x = logo_x + LOGO_WIDTH + 1
+    command_y = 2
+
+    console.write(command_x, command_y, "Commands", COLOUR_YELLOW)
+    command_y += 1
+    
+    for command in COMMON_COMMANDS:
+        console.write(command_x, command_y, command)
+        command_y += 1
 
 
 def display_all():
