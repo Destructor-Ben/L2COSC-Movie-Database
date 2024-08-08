@@ -6,3 +6,4 @@ I hope I get excellence!
 # Requirements
 - `sqlite3` module must be installed
 - Your machine must support ANSI escape sequences (which it should if it is Linux, MacOS, or Windows 10+)
+- DO NOT RUN IN IDLE - It doesn't support ANSI escape sequences
