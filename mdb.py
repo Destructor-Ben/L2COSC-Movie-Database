@@ -1,6 +1,9 @@
 import mdb_console as console
 
 def render():
+    if (console.user_input == "exit"):
+        return False
+
     for x in range(console.width):
         console.buffer[x][0] = "-"
         console.buffer[x][-1] = "-"
@@ -13,6 +16,8 @@ def render():
     console.buffer[-1][0] = "+"
     console.buffer[0][-1] = "+"
     console.buffer[-1][-1] = "+"
+    
+    return True
 
 console.setup(render)
-console.display()
+console.run()
