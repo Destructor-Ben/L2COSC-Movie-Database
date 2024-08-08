@@ -5,7 +5,7 @@ width = 0
 height = 0
 
 def clear():
-    print(chr(27) + "c", "")
+    print(chr(27) + "c", end="")
 
 def get_size():
     size = os.get_terminal_size()
