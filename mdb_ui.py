@@ -13,6 +13,14 @@ class Page(Enum):
     ALL_MOVIES = "all_movies"
     SINGLE_MOVIE = "single_movie"
 
+
+# https://en.wikipedia.org/wiki/Box-drawing_characters
+HORIZONTAL_BAR_CHAR = "─"
+VERTICAL_BAR_CHAR = "│"
+PLUS_BAR_CHAR = "┼"
+CORNER_BAR_CHARS = "┌┐└┘"
+T_BAR_CHARS = "├┤┬┴"
+
 # TODO: make a dictionary of pages and commands
 
 current_page = Page.HOME
@@ -23,20 +31,17 @@ def render_common_ui():
     """Render the UI common to all pages."""
     # Draw a border around the window
     for x in range(console.width):
-        console.buffer[x][0] = "-"
-        console.buffer[x][-1] = "-"
-    
+        console.set(x, 0, HORIZONTAL_BAR_CHAR)
+        console.set(x, -1, HORIZONTAL_BAR_CHAR)
+
     for y in range(console.height):
-        console.buffer[0][y] = "|"
-        console.buffer[-1][y] = "|"
-
-    console.buffer[0][0] = "+"
-    console.buffer[-1][0] = "+"
-    console.buffer[0][-1] = "+"
-    console.buffer[-1][-1] = "+"
-
-    console.bg_colours[0][0] = (255, 0, 0)
-    console.fg_colours[1][0] = (0, 255, 0)
+        console.set(0, y, VERTICAL_BAR_CHAR)
+        console.set(-1, y, VERTICAL_BAR_CHAR)
+    
+    console.set(0, 0, CORNER_BAR_CHARS[0])
+    console.set(-1, 0, CORNER_BAR_CHARS[1])
+    console.set(0, -1, CORNER_BAR_CHARS[2])
+    console.set(-1, -1, CORNER_BAR_CHARS[3])
 
 def render_current_page():
     """Render the current page of the UI.

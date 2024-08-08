@@ -159,7 +159,7 @@ def set(
         fg_colour: tuple[int, int, int] | None = None,
         bg_colour: tuple[int, int, int] | None = None):
     """Write the given character to the buffer at the given coordinate."""
-    if (x < 0 or y < 0 or x >= width or y >= height):
+    if (x >= width or y >= height):
         return
 
     buffer[x][y] = char
