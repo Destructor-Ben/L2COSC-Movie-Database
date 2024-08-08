@@ -16,7 +16,10 @@ def render():
     console.buffer[-1][0] = "+"
     console.buffer[0][-1] = "+"
     console.buffer[-1][-1] = "+"
-    
+
+    console.bg_colours[0][0] = (255, 0, 0)
+    console.fg_colours[1][0] = (0, 255, 0)
+
     return True
 
 console.setup(render)
