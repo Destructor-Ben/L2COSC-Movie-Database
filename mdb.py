@@ -8,6 +8,7 @@ import time
 if (__name__ == "__main__"):
     db.setup()
     db.debug_print()
-    time.sleep(3)
+    input()
+
     console.setup(ui.render_current_page)
     console.run()
