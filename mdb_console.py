@@ -159,6 +159,7 @@ def set(
         fg_colour: tuple[int, int, int] | None = None,
         bg_colour: tuple[int, int, int] | None = None):
     """Write the given character to the buffer at the given coordinate."""
+    # TODO: now that negative indicies are allowed, should they be properly clamped in case of a bad console size?
     if (x >= width or y >= height):
         return
 

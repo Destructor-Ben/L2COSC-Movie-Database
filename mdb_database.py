@@ -16,23 +16,36 @@ def setup():
     """
     global database
 
+    # Connect to the database and add the initial data if it doesn't exist
     database = sqlite3.connect("Database.db")
+    insert_initial_data()
 
-    # Delete existing data
-    database.execute(f"DROP TABLE IF EXISTS {MOVIES_TABLE}")
+
+def insert_initial_data():
+    """Add the initial contents of the database if it doesn't exist."""
+    # Check if the table exists already
+    response = database.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{MOVIES_TABLE}';")
+    if (len(response.fetchall()) > 0):
+        return
 
     # Create the table
     database.execute(f"""
     CREATE TABLE {MOVIES_TABLE} (
-        ID INT PRIMARY KEY,
+        ID INTEGER PRIMARY KEY,
         Name TINYTEXT
-    )
+    );
     """)
 
     # Add the initial data
-    database.execute(f"INSERT INTO {MOVIES_TABLE} VALUES (0, 'TEST')")
+    database.execute(f"""
+    INSERT INTO {MOVIES_TABLE} (Name) VALUES
+        ('Test 1'),
+        ('Batman'),
+        ('Joker'),
+        ('Iron Man'),
+        ('Spiderman: Into the Spiderverse');
+    """)
 
-    # Save
     database.commit()
 
 
