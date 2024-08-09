@@ -32,6 +32,9 @@ render = None
 # Last user input, used in the UI code
 user_input = None
 
+# Whether the app is running
+is_running = True
+
 
 def setup(render_callback):
     """Set up the console utilities.
@@ -50,9 +53,8 @@ def setup(render_callback):
 
 def run():
     """Run the console UI."""
-    # We loop until the display function returns false, which will only happen if the renderer returns false
-    while display():
-        continue
+    while is_running:
+        display()
 
 
 def print_escape_sequence(sequence: str):
@@ -109,19 +111,17 @@ def set_text_colour(
     return colour
 
 
-def display() -> bool:
-    """Render the UI, display the buffer to the screen, then clear it afterwards.
-
-    Returns whether the app should continue to run.
-    """
+def display():
+    """Render the UI, display the buffer to the screen, then clear it afterwards."""
     global user_input
+    global is_running
 
     # Clear the screen and render the buffer
     clear()
     recreate_buffer()
-    should_run = render()
-    if (not should_run):
-        return False
+    render()
+    if (not is_running):
+        return
 
     # Display buffer contents
     current_fg_colour = None
@@ -148,8 +148,6 @@ def display() -> bool:
     # Flush the buffer and print a cursor so the user can give input
     print(" > ", end="", flush=True)
     user_input = input()
-
-    return True
 
 
 def set(
