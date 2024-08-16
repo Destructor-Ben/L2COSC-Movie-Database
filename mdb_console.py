@@ -116,16 +116,19 @@ def display():
     global user_input
     global is_running
 
-    # Clear the screen and render the buffer
-    clear()
+    # Render the buffer
     recreate_buffer()
     render()
+
+    # Leave if we don't want to run
     if (not is_running):
+        clear()
         return
 
-    # Display buffer contents
+    # Clear the screen and display buffer contents
     current_fg_colour = None
     current_bg_colour = None
+    clear()
 
     for y in range(height):
         for x in range(width):
