@@ -51,6 +51,9 @@ error_message = None
 
 # Used in movie, search, edit, and delete menu
 search_query = None
+# TODO: current_movie?
+
+# TODO: probably make classes for each page and command
 
 # region Commands
 
@@ -152,10 +155,6 @@ def page_home():
     name_y = logo_y + 1 + LOGO_HEIGHT
     console.write(name_x, name_y, "Movie Data Base")
 
-    # Error message
-    if (error_message is not None):
-        console.write(name_x, name_y + 2, error_message, COLOUR_RED)
-
     # Draw the list of commands
     command_x = logo_x + LOGO_WIDTH + 1
     command_y = 2
@@ -196,6 +195,8 @@ def page_delete_movie():
 def page_reset_database():
     """Render the reset database page."""
     console.write(2, 1, "RESET DATABASE")
+    # TODO: make a verification for this
+    db.reset()
 
 
 PAGES = {
@@ -271,3 +272,11 @@ def render_common_ui():
     console.set(-1, 0, CORNER_BAR_CHARS[1])
     console.set(0, -1, CORNER_BAR_CHARS[2])
     console.set(-1, -1, CORNER_BAR_CHARS[3])
+
+    # Draw the error message
+    if (error_message is None):
+        return
+
+    error_x = 2
+    error_y = -2
+    console.write(error_x, error_y, f"Error: {error_message}", COLOUR_RED)
