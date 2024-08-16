@@ -49,6 +49,13 @@ def insert_initial_data():
     database.commit()
 
 
+def reset():
+    """Reset the database."""
+    # Delete the data and recreate the database
+    database.execute(f"DROP TABLE IF EXISTS {MOVIES_TABLE}")
+    insert_initial_data()
+
+
 def debug_print():
     """Print the contents of the database to the console."""
     print(f"{MOVIES_TABLE}:")
