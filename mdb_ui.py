@@ -3,6 +3,7 @@
 import enum
 
 import mdb_console as console
+import mdb_database as db
 
 
 class Page(enum.Enum):
@@ -48,44 +49,78 @@ COLOUR_RED = (235, 64, 52)
 current_page = Page.HOME
 error_message = None
 
+# Used in movie, search, edit, and delete menu
+search_query = None
+
 # region Commands
 
 
-def command_exit():
+def command_exit(args):
+    """Exit the application."""
     console.is_running = False
 
 
-def command_back():
-    pass
+def command_home(args):
+    """Go to the home page."""
+    global current_page
+
+    current_page = Page.HOME
 
 
-def command_home():
-    pass
+def command_movie(args):
+    """Go to the movie page."""
+    global current_page
+    global error_message
+    global search_query
+
+    if (len(args) != 1):
+        error_message = f"Incorrect number of args ({len(args)} instead of 1)"
+        return
+
+    if (args[0] == "all"):
+        current_page = Page.ALL_MOVIES
+    else:
+        current_page = Page.SINGLE_MOVIE
+        search_query = args[0]
 
 
-def command_movie():
-    pass
+def command_search(args):
+    """Go to the search page."""
+    global current_page
+    global error_message
+    global search_query
+
+    if (len(args) != 1):
+        error_message = f"Incorrect number of args ({len(args)} instead of 1)"
+        return
+
+    current_page = Page.SEARCH_RESULTS
+    search_query = args[0]
 
 
-def command_search():
-    pass
+def command_edit(args):
+    """Go to the edit page."""
+    global current_page
+
+    current_page = Page.EDIT_MOVIE
 
 
-def command_edit():
-    pass
+def command_delete(args):
+    """Go to the delete page."""
+    global current_page
+
+    current_page = Page.DELETE_MOVIE
 
 
-def command_delete():
-    pass
+def command_reset(args):
+    """Go to the reset page."""
+    global current_page
 
-
-def command_reset():
-    pass
+    current_page = Page.RESET_DATABASE
 
 
 COMMANDS = {
     "exit": command_exit,
-    "back": command_back,
     "home": command_home,
     "movie": command_movie,
     "search": command_search,
@@ -95,6 +130,7 @@ COMMANDS = {
 }
 
 # endregion
+
 
 # region Pages
 
@@ -133,27 +169,33 @@ def page_home():
 
 
 def page_all_movies():
-    pass
+    """Render the movie catalogue page."""
+    console.write(2, 1, "All movies")
 
 
 def page_single_movie():
-    pass
+    """Render the single movie page."""
+    console.write(2, 1, "Single Movie")
 
 
 def page_search_results():
-    pass
+    """Render the search page."""
+    console.write(2, 1, "Search Results")
 
 
 def page_edit_movie():
-    pass
+    """Render the edit page."""
+    console.write(2, 1, "Edit Movie")
 
 
 def page_delete_movie():
-    pass
+    """Render the delete page."""
+    console.write(2, 1, "Delete movie")
 
 
 def page_reset_database():
-    pass
+    """Render the reset database page."""
+    console.write(2, 1, "RESET DATABASE")
 
 
 PAGES = {
@@ -167,6 +209,51 @@ PAGES = {
 }
 
 # endregion
+
+
+def render_current_page():
+    """Render the current page of the UI."""
+    global current_page
+    global error_message
+
+    handle_commands()
+
+    # Stop rendering if we exited
+    if (not console.is_running):
+        return
+
+    # Render the UI
+    render_common_ui()
+    PAGES[current_page]()
+
+    # Reset state
+    error_message = None
+
+
+def handle_commands():
+    """Handle commands."""
+    global error_message
+
+    # Return if there is no user input
+    if (console.user_input is None):
+        return
+
+    # Remove spaces at the end and beginning and split into args (that aren't empty)
+    command = console.user_input.strip().split()
+
+    # Return if there is nothing of value that was inputted
+    if (len(command) <= 0):
+        error_message = "No command provided"
+        return
+
+    # Get command info
+    command_name = command[0].lower()
+    command_args = command[1:]
+
+    if (command_name in COMMANDS):
+        COMMANDS[command_name](command_args)
+    else:
+        error_message = f"Invalid command: '{console.user_input}'"
 
 
 def render_common_ui():
@@ -184,26 +271,3 @@ def render_common_ui():
     console.set(-1, 0, CORNER_BAR_CHARS[1])
     console.set(0, -1, CORNER_BAR_CHARS[2])
     console.set(-1, -1, CORNER_BAR_CHARS[3])
-
-
-def render_current_page():
-    """Render the current page of the UI."""
-    global current_page
-    global error_message
-
-    # Commands
-    # TODO: how will arguments be handled?
-    if (console.user_input is not None):
-        command = console.user_input.lower().strip()
-        if (command in COMMANDS):
-            COMMANDS[command]()
-        else:
-            error_message = f"Invalid command: '{command}'"
-
-    # Stop rendering if we exited
-    if (not console.is_running):
-        return
-
-    # Render the UI
-    render_common_ui()
-    PAGES[current_page]()
