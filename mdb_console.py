@@ -160,10 +160,11 @@ def set(
     bg_colour: tuple[int, int, int] | None = None,
 ):
     """Write the given character to the buffer at the given coordinate."""
-    # TODO: now that negative indicies are allowed, should they be properly clamped in case of a bad console size?
-    if x >= width or y >= height:
+    # Clamp (including negatives)
+    if x >= width or y >= height or x < -width or y < -height:
         return
 
+    # Write to the buffers
     buffer[x][y] = char
     fg_colours[x][y] = fg_colour
     bg_colours[x][y] = bg_colour
@@ -177,5 +178,14 @@ def write(
     bg_colour: tuple[int, int, int] | None = None,
 ):
     """Write the given text to the buffer at the given coordinate."""
+    # Make negative indicies positive, since it makes negative x coordinates better
+    # Otherwise, they warp across the rught of the screen to the left
+    while x < 0:
+        x += width
+
+    while y < 0:
+        y += height
+
+    # Write each character
     for i, char in enumerate(text):
         set(x + i, y, char, fg_colour, bg_colour)
