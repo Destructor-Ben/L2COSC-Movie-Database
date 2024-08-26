@@ -142,7 +142,7 @@ def render_current_page():
     handle_commands()
 
     # Stop rendering if we exited
-    if (not console.is_running):
+    if not console.is_running:
         return
 
     # Render the UI
@@ -158,14 +158,14 @@ def handle_commands():
     global error_message
 
     # Return if there is no user input
-    if (console.user_input is None):
+    if console.user_input is None:
         return
 
     # Remove spaces at the end and beginning and split into args (that aren't empty)
     command = console.user_input.strip().split()
 
     # Return if there is nothing of value that was inputted
-    if (len(command) <= 0):
+    if len(command) <= 0:
         error_message = "No command provided"
         return
 
@@ -175,7 +175,7 @@ def handle_commands():
 
     # Invoke the command
     command = commands.find(command_name)
-    if (command is not None):
+    if command is not None:
         command.invoke(command_args)
     else:
         error_message = f"Invalid command: '{console.user_input}'"
@@ -198,7 +198,7 @@ def render_common_ui():
     console.set(-1, -1, CORNER_BAR_CHARS[3])
 
     # Draw the error message
-    if (error_message is None):
+    if error_message is None:
         return
 
     error_x = 2

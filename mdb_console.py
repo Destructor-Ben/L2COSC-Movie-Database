@@ -46,7 +46,7 @@ def setup(render_callback):
     render = render_callback
 
     # Windows is weird and needs these commands to be run to make ANSI escape codes work
-    if (os.name == "nt"):
+    if os.name == "nt":
         os.system("cls")
         os.system("color")
 
@@ -92,16 +92,15 @@ def recreate_buffer():
 
 
 def set_text_colour(
-        current_colour: tuple[int, int, int] | None,
-        colour: tuple[int, int, int] | None,
-        is_foreground: bool = True):
+    current_colour: tuple[int, int, int] | None, colour: tuple[int, int, int] | None, is_foreground: bool = True
+):
     """Set the text colour of the console."""
-    if (current_colour == colour):
+    if current_colour == colour:
         # Return original if nothing changed
         return current_colour
 
     # If the intended colour is different to the actual colour, then change it
-    if (colour is None):
+    if colour is None:
         # Reset to default
         print_escape_sequence(f"[{39 if is_foreground else 49}m")
     else:
@@ -121,7 +120,7 @@ def display():
     render()
 
     # Leave if we don't want to run
-    if (not is_running):
+    if not is_running:
         clear()
         return
 
@@ -154,14 +153,15 @@ def display():
 
 
 def set(
-        x: int,
-        y: int,
-        char: chr,
-        fg_colour: tuple[int, int, int] | None = None,
-        bg_colour: tuple[int, int, int] | None = None):
+    x: int,
+    y: int,
+    char: chr,
+    fg_colour: tuple[int, int, int] | None = None,
+    bg_colour: tuple[int, int, int] | None = None,
+):
     """Write the given character to the buffer at the given coordinate."""
     # TODO: now that negative indicies are allowed, should they be properly clamped in case of a bad console size?
-    if (x >= width or y >= height):
+    if x >= width or y >= height:
         return
 
     buffer[x][y] = char
@@ -170,11 +170,12 @@ def set(
 
 
 def write(
-        x: int,
-        y: int,
-        text: str,
-        fg_colour: tuple[int, int, int] | None = None,
-        bg_colour: tuple[int, int, int] | None = None):
+    x: int,
+    y: int,
+    text: str,
+    fg_colour: tuple[int, int, int] | None = None,
+    bg_colour: tuple[int, int, int] | None = None,
+):
     """Write the given text to the buffer at the given coordinate."""
     for i, char in enumerate(text):
         set(x + i, y, char, fg_colour, bg_colour)

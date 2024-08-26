@@ -1,9 +1,17 @@
 {
   "version": "2.0.0",
-  "tasks": [{
-      "label": "style-check",
+  "tasks": [
+    {
+        "label": "Lint",
+        "command": "python3",
+        "args": ["-m", "ruff", "check"],
+        "type": "shell"
+    },
+    {
+      "label": "Format",
       "command": "python3",
-      "args": ["-m", "ruff", "check"],
+      "args": ["-m", "ruff", "format"],
       "type": "shell"
-  }]
+    }
+  ]
 }

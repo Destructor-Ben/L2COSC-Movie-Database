@@ -3,12 +3,12 @@ import inspect
 import mdb_console as console
 import mdb_ui as ui
 
+
 class Command:
     # TODO: make these private
     name: str | None = None
     action = None
     arg_count = 0
-
 
     def __init__(self, name: str, action: callable) -> None:
         self.name = name
@@ -17,9 +17,8 @@ class Command:
         # Automatically figure out how many args there are
         self.arg_count = len(inspect.signature(action).parameters)
 
-
     def invoke(self, args):
-        if (len(args) != self.arg_count):
+        if len(args) != self.arg_count:
             ui.error_message = f"Incorrect argument count ({len(args)} instead of {self.arg_count})"
             return
 
@@ -38,7 +37,7 @@ def command_home():
 
 def command_movie(movie_name):
     """Go to the movie page."""
-    if (movie_name == "all"):
+    if movie_name == "all":
         ui.current_page = ui.Page.ALL_MOVIES
     else:
         ui.current_page = ui.Page.SINGLE_MOVIE
@@ -68,20 +67,20 @@ def command_reset():
 
 # List of commands
 COMMANDS = [
-    Command("exit",   command_exit),
-    Command("home",   command_home),
-    Command("movie",  command_movie),
+    Command("exit", command_exit),
+    Command("home", command_home),
+    Command("movie", command_movie),
     Command("search", command_search),
-    Command("edit",   command_edit),
+    Command("edit", command_edit),
     Command("delete", command_delete),
-    Command("reset",  command_reset),
+    Command("reset", command_reset),
 ]
 
 
 def find(name: str) -> Command | None:
     """Find a command with the given name."""
     for command in COMMANDS:
-        if (command.name == name):
+        if command.name == name:
             return command
 
     return None

@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "mdb.py",
             "console": "integratedTerminal",
-            "preLaunchTask": "style-check"
+            "preLaunchTask": "Lint"
         }
     ]
 }

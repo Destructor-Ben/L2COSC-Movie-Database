@@ -25,7 +25,7 @@ def insert_initial_data():
     """Add the initial contents of the database if it doesn't exist."""
     # Check if the table exists already
     response = database.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{MOVIES_TABLE}';")
-    if (len(response.fetchall()) > 0):
+    if len(response.fetchall()) > 0:
         return
 
     # Create the table
