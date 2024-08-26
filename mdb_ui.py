@@ -2,7 +2,7 @@
 
 import mdb_commands as commands
 import mdb_console as console
-import mdb_database as db 
+import mdb_database as db
 
 # Made from https://patorjk.com/software/taag/#p=display&f=Slant%20Relief&t=MDB
 # Made pretty with this: https://stackoverflow.com/questions/10660435/how-do-i-split-the-definition-of-a-long-string-over-multiple-lines
@@ -37,6 +37,7 @@ class Page:
     """An abstract enscapsulation of a page."""
 
     def __init__(self, name: str, min_width: int, min_height: int):
+        """Create a page."""
         # Immutable
         self.name = name
         self.min_width = min_width
@@ -47,6 +48,7 @@ class Page:
         self.commands_available = True
 
     def render(self):
+        """Render the page."""
         pass
 
 
@@ -58,9 +60,11 @@ class HomePage(Page):
     """The home page of the UI."""
 
     def __init__(self):
+        """Create a page."""
         super().__init__("Home", 10, 10)
-    
+
     def render(self):
+        """Render the page."""
         # Coords of the top left of the logo
         logo_x = 1
         logo_y = 2
@@ -92,9 +96,11 @@ class AllMoviesPage(Page):
     """The move list page of the UI."""
 
     def __init__(self):
+        """Create a page."""
         super().__init__("Movie List", 10, 10)
-    
+
     def render(self):
+        """Render the page."""
         pass
 
 
@@ -102,9 +108,11 @@ class MoviePage(Page):
     """The movie info page of the UI."""
 
     def __init__(self):
+        """Create a page."""
         super().__init__("Movie", 10, 10)
-    
+
     def render(self):
+        """Render the page."""
         pass
 
 
@@ -112,9 +120,11 @@ class SearchPage(Page):
     """The search page of the UI."""
 
     def __init__(self):
+        """Create a page."""
         super().__init__("Search", 10, 10)
-    
+
     def render(self):
+        """Render the page."""
         pass
 
 
@@ -122,9 +132,11 @@ class EditPage(Page):
     """The edit page of the UI."""
 
     def __init__(self):
+        """Create a page."""
         super().__init__("Edit", 10, 10)
-    
+
     def render(self):
+        """Render the page."""
         pass
 
 
@@ -132,9 +144,11 @@ class DeletePage(Page):
     """The delete page of the UI."""
 
     def __init__(self):
+        """Create a page."""
         super().__init__("Delete", 10, 10)
-    
+
     def render(self):
+        """Render the page."""
         pass
 
 
@@ -142,10 +156,12 @@ class ResetPage(Page):
     """The reset page of the UI."""
 
     def __init__(self):
+        """Create a page."""
         super().__init__("Reset", 10, 10)
-    
+
     def render(self):
-        pass
+        """Render the page."""
+        db.reset()
 
 
 # endregion
@@ -164,7 +180,8 @@ def render_current_page():
 
     # Check if the console is too small
     if console.width < current_page.min_width or console.height < current_page.min_height:
-        console.write(0, 0, f"Error: Console too small to render page ({console.width}x{console.height} instead of {current_page.min_width}x{current_page.min_height})", COLOUR_RED)
+        size_hint = f"({console.width}x{console.height} instead of {current_page.min_width}x{current_page.min_height})"
+        console.write(0, 0, f"Error: Console too small to render page {size_hint}", COLOUR_RED)
         return
 
     # Render the UI
