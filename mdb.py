@@ -6,6 +6,7 @@ import mdb_ui as ui
 
 if __name__ == "__main__":
     db.setup()
+    # TODO: these 2 lines are temporary
     db.debug_print()
     input()
 
