@@ -35,7 +35,7 @@ class Command:
     def invoke(self, args):
         """Run the command with the given arguments."""
         if len(args) != self.arg_count:
-            ui.error_message = f"Incorrect argument count ({len(args)} instead of {self.arg_count})"
+            ui.current_page.error_message = f"Incorrect argument count ({len(args)} instead of {self.arg_count})"
             return
 
         self.action(*args)
@@ -48,37 +48,35 @@ def command_exit():
 
 def command_home():
     """Go to the home page."""
-    ui.current_page = ui.Page.HOME
+    ui.current_page = ui.HomePage()
 
 
 def command_movie(movie_name):
     """Go to the movie page."""
     if movie_name == "all":
-        ui.current_page = ui.Page.ALL_MOVIES
+        ui.current_page = ui.AllMoviesPage()
     else:
-        ui.current_page = ui.Page.SINGLE_MOVIE
-        ui.search_query = movie_name
+        ui.current_page = ui.MoviePage()
 
 
-def command_search(query):
+def command_search():
     """Go to the search page."""
-    ui.current_page = ui.Page.SEARCH_RESULTS
-    ui.search_query = query
+    ui.current_page = ui.SearchPage()
 
 
 def command_edit():
     """Go to the edit page."""
-    ui.current_page = ui.Page.EDIT_MOVIE
+    ui.current_page = ui.EditPage()
 
 
 def command_delete():
     """Go to the delete page."""
-    ui.current_page = ui.Page.DELETE_MOVIE
+    ui.current_page = ui.DeletePage()
 
 
 def command_reset():
     """Go to the reset page."""
-    ui.current_page = ui.Page.RESET_DATABASE
+    ui.current_page = ui.ResetPage()
 
 
 # List of commands
