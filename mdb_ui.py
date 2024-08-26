@@ -2,8 +2,8 @@
 
 import enum
 
-import mdb_console as console
 import mdb_commands as commands
+import mdb_console as console
 import mdb_database as db
 
 

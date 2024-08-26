@@ -1,3 +1,5 @@
+"""The code related to commands."""
+
 import inspect
 
 import mdb_console as console
@@ -5,19 +7,33 @@ import mdb_ui as ui
 
 
 class Command:
-    # TODO: make these private
-    name: str | None = None
-    action = None
-    arg_count = 0
+    """An enscapsulation of a command."""
 
     def __init__(self, name: str, action: callable) -> None:
-        self.name = name
-        self.action = action
+        """Create a command with a name and an action."""
+        self._name = name
+        self._action = action
 
         # Automatically figure out how many args there are
-        self.arg_count = len(inspect.signature(action).parameters)
+        self._arg_count = len(inspect.signature(action).parameters)
+
+    @property
+    def name(self):
+        """The name of the command."""
+        return self._name
+
+    @property
+    def action(self):
+        """The action of the command."""
+        return self._action
+
+    @property
+    def arg_count(self):
+        """The number of arguments of the command."""
+        return self._arg_count
 
     def invoke(self, args):
+        """Run the command with the given arguments."""
         if len(args) != self.arg_count:
             ui.error_message = f"Incorrect argument count ({len(args)} instead of {self.arg_count})"
             return
