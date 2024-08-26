@@ -3,6 +3,7 @@
 import enum
 
 import mdb_console as console
+import mdb_commands as commands
 import mdb_database as db
 
 
@@ -53,86 +54,7 @@ error_message = None
 search_query = None
 # TODO: current_movie?
 
-# TODO: probably make classes for each page and command
-
-# region Commands
-
-
-def command_exit(args):
-    """Exit the application."""
-    console.is_running = False
-
-
-def command_home(args):
-    """Go to the home page."""
-    global current_page
-
-    current_page = Page.HOME
-
-
-def command_movie(args):
-    """Go to the movie page."""
-    global current_page
-    global error_message
-    global search_query
-
-    if (len(args) != 1):
-        error_message = f"Incorrect number of args ({len(args)} instead of 1)"
-        return
-
-    if (args[0] == "all"):
-        current_page = Page.ALL_MOVIES
-    else:
-        current_page = Page.SINGLE_MOVIE
-        search_query = args[0]
-
-
-def command_search(args):
-    """Go to the search page."""
-    global current_page
-    global error_message
-    global search_query
-
-    if (len(args) != 1):
-        error_message = f"Incorrect number of args ({len(args)} instead of 1)"
-        return
-
-    current_page = Page.SEARCH_RESULTS
-    search_query = args[0]
-
-
-def command_edit(args):
-    """Go to the edit page."""
-    global current_page
-
-    current_page = Page.EDIT_MOVIE
-
-
-def command_delete(args):
-    """Go to the delete page."""
-    global current_page
-
-    current_page = Page.DELETE_MOVIE
-
-
-def command_reset(args):
-    """Go to the reset page."""
-    global current_page
-
-    current_page = Page.RESET_DATABASE
-
-
-COMMANDS = {
-    "exit": command_exit,
-    "home": command_home,
-    "movie": command_movie,
-    "search": command_search,
-    "edit": command_edit,
-    "delete": command_delete,
-    "reset": command_reset,
-}
-
-# endregion
+# TODO: probably make classes for each page
 
 
 # region Pages
@@ -162,8 +84,8 @@ def page_home():
     console.write(command_x, command_y, "Commands", COLOUR_YELLOW)
     command_y += 1
 
-    for command in COMMANDS:
-        console.write(command_x, command_y, command)
+    for command in commands.COMMANDS:
+        console.write(command_x, command_y, command.name)
         command_y += 1
 
 
@@ -251,8 +173,10 @@ def handle_commands():
     command_name = command[0].lower()
     command_args = command[1:]
 
-    if (command_name in COMMANDS):
-        COMMANDS[command_name](command_args)
+    # Invoke the command
+    command = commands.find(command_name)
+    if (command is not None):
+        command.invoke(command_args)
     else:
         error_message = f"Invalid command: '{console.user_input}'"
 
