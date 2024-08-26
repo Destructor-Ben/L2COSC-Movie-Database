@@ -33,9 +33,6 @@ COLOUR_YELLOW = (255, 245, 100)
 COLOUR_RED = (235, 64, 52)
 
 
-# region Pages
-
-
 class Page:
     """An abstract enscapsulation of a page."""
 
@@ -51,6 +48,10 @@ class Page:
 
     def render(self):
         pass
+
+
+# TODO: finish the pages and commands
+# region Pages
 
 
 class HomePage(Page):
@@ -163,8 +164,7 @@ def render_current_page():
 
     # Check if the console is too small
     if console.width < current_page.min_width or console.height < current_page.min_height:
-        current_page.error_message = f"Console too small to render the page ({console.width}x{console.height} instead of {current_page.min_width}x{current_page.min_height})"
-        render_common_ui()
+        console.write(0, 0, f"Error: Console too small to render page ({console.width}x{console.height} instead of {current_page.min_width}x{current_page.min_height})", COLOUR_RED)
         return
 
     # Render the UI
