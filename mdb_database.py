@@ -6,8 +6,6 @@ MOVIES_TABLE = "MOVIES"
 
 database: sqlite3.Connection = None
 
-# TODO: finish this file
-
 
 def setup():
     """Set up the database utilities.
@@ -29,21 +27,33 @@ def insert_initial_data():
         return
 
     # Create the table
+    # TODO: contraints
     database.execute(f"""
     CREATE TABLE {MOVIES_TABLE} (
         ID INTEGER PRIMARY KEY,
-        Name TINYTEXT
+        Name TEXT NOT NULL,
+        ReleaseYear INTEGER,
+        AudienceRating TEXT,
+        Runtime INTEGER,
+        Genre TEXT,
+        StarRating INTEGER,
+        WhereToWatch TEXT
     );
     """)
 
     # Add the initial data
+    # TODO: more initial data
     database.execute(f"""
     INSERT INTO {MOVIES_TABLE} (Name) VALUES
-        ('Test 1'),
         ('Batman'),
         ('Joker'),
         ('Iron Man'),
         ('Spiderman: Into the Spiderverse');
+    """)
+
+    database.execute(f"""
+    INSERT INTO {MOVIES_TABLE} (Name, ReleaseYear, AudienceRating, Runtime, Genre, StarRating, WhereToWatch) VALUES
+        ('FizzBuzz', 2001, 'R-16', 102, 'Romance', 9, 'https://example.com');
     """)
 
     database.commit()
@@ -52,7 +62,7 @@ def insert_initial_data():
 def reset():
     """Reset the database."""
     # Delete the data and recreate the database
-    database.execute(f"DROP TABLE IF EXISTS {MOVIES_TABLE}")
+    database.execute(f"DROP TABLE IF EXISTS {MOVIES_TABLE};")
     insert_initial_data()
 
 
