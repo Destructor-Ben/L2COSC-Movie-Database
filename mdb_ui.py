@@ -101,7 +101,10 @@ class AllMoviesPage(Page):
 
     def render(self):
         """Render the page."""
-        pass
+        movie_y = 3
+        for movie in db.get_all():
+            console.write(2, movie_y, str(movie))
+            movie_y += 1
 
 
 class MoviePage(Page):
