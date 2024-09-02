@@ -28,6 +28,11 @@ PLUS_BAR_CHAR = "┼"
 CORNER_BAR_CHARS = "┌┐└┘"
 T_BAR_CHARS = "├┤┬┴"
 
+FULL_STAR_CHAR = "★"
+EMPTY_STAR_CHAR = "☆"
+# Sadly, the half star character isn't supported by many fonts so we can't use it
+# HALF_STAR_CHAR = "⯨"
+
 COLOUR_GREEN = (43, 255, 100)
 COLOUR_YELLOW = (255, 245, 100)
 COLOUR_RED = (235, 64, 52)
