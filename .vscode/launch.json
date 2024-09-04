@@ -5,7 +5,7 @@
             "name": "Movie Database",
             "type": "debugpy",
             "request": "launch",
-            "program": "mdb.py",
+            "program": "src/mdb.py",
             "console": "integratedTerminal",
             "preLaunchTask": "Lint"
         }
