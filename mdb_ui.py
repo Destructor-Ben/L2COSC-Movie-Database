@@ -1,5 +1,7 @@
 """The code related to managing the individual pages of the UI."""
 
+# TODO: put all pages in their own files
+
 import mdb_commands as commands
 import mdb_console as console
 import mdb_database as db
@@ -103,12 +105,48 @@ class AllMoviesPage(Page):
     def __init__(self):
         """Create a page."""
         super().__init__("Movie List", 10, 10)
+        self.movie_index = 0
 
     def render(self):
         """Render the page."""
-        movie_y = 3
-        for movie in db.get_all():
-            console.write(2, movie_y, str(movie))
+        # Get the movies
+        movies = db.get_all()
+        num_movies = len(movies)
+
+        # Calculate various values
+        PADDING = 3
+        number_of_rows = console.height - PADDING * 2
+        if self.error_message is None:
+            number_of_rows += 1
+
+        # Handle up and down commands
+        # TODO: probably abstract this/make these commands
+        user_input = console.user_input.strip()
+        if user_input == "w":
+            self.movie_index -= 1  
+
+        if user_input == "s":
+            self.movie_index += 1
+        
+        if self.movie_index < 0:
+            self.movie_index = 0
+
+        max_index = num_movies - number_of_rows
+        if self.movie_index > max_index:
+            self.movie_index = max_index
+
+        # Draw the list
+        movie_y = PADDING
+        for i in range(self.movie_index, num_movies):
+            # Subtract the first value in the range to get a 0 based index of what is actually shown on screen
+            index_drawn_in_list = i - self.movie_index
+            if index_drawn_in_list >= number_of_rows:
+                break
+
+            if i >= num_movies:
+                break
+
+            console.write(2, movie_y, str(movies[i]))
             movie_y += 1
 
 

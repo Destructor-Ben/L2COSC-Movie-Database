@@ -1,5 +1,7 @@
 """The code related to commands."""
 
+# TODO: make all commands in their own files and be oop based
+
 import inspect
 
 import mdb_console as console
