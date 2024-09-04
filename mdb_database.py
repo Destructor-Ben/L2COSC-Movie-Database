@@ -50,6 +50,9 @@ def insert_initial_data():
     insert(Movie(0, "Among Us", 2020, "NC-18", 69420, "Horror", 5, "https://sigma.com"))
     insert(Movie(0, "FNAF", 1987, "PG-13", 167, "Thriller", 4, "https://fnaf.com"))
 
+    for i in range(15):
+        insert(Movie(0, "a" * i))
+
 
 def reset():
     """Reset the database."""
@@ -118,8 +121,8 @@ def delete(id: int):
 def get(id: int) -> Movie:
     """Get an entry from the database via ID."""
     response = database.execute(f"""
-        SELECT (ID, Name, ReleaseYear, AudienceRating, Runtime, Genre, StarRating, WhereToWatch)
-            FROM {MOVIES_TABLE} WHERE ID = {id};
+    SELECT ID, Name, ReleaseYear, AudienceRating, Runtime, Genre, StarRating, WhereToWatch
+        FROM {MOVIES_TABLE} WHERE ID = {id};
     """)
 
     return Movie(response[0], response[1], response[2], response[3], response[4], response[5], response[6], response[7])
@@ -128,7 +131,7 @@ def get(id: int) -> Movie:
 def get_all() -> list[Movie]:
     """Get all entries from the database."""
     response = database.execute(f"""
-    SELECT (ID, Name, ReleaseYear, AudienceRating, Runtime, Genre, StarRating, WhereToWatch)
+    SELECT ID, Name, ReleaseYear, AudienceRating, Runtime, Genre, StarRating, WhereToWatch
         FROM {MOVIES_TABLE};
     """)
 
