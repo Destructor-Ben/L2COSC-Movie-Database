@@ -1,5 +1,18 @@
 """The code for the movie structure that is used in the database."""
 
+import enum
+
+
+# TODO: actually use this enum
+class AudienceRating(enum.Enum):
+    """An enum representing a rating for an audience."""
+    G = enum.auto()
+    PG = enum.auto()
+    PG13 = enum.auto()
+    R13 = enum.auto()
+    R16 = enum.auto()
+    NC18 = enum.auto()
+
 
 # TODO: constraints & datatype conversions
 class Movie:
