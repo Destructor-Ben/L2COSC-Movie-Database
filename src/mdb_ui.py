@@ -52,7 +52,8 @@ class Page:
 
         # Mutable
         self.error_message = None
-        self.commands_available = True
+        self.global_commands_available = True
+        self.commands = []
 
     def render(self):
         """Render the page."""
@@ -88,13 +89,14 @@ class HomePage(Page):
         console.write(name_x, name_y, "Movie Data Base")
 
         # Draw the list of commands
+        # TODO: make this common ui
         command_x = logo_x + LOGO_WIDTH + 1
         command_y = 2
 
         console.write(command_x, command_y, "Commands", COLOUR_YELLOW)
         command_y += 1
 
-        for command in commands.COMMANDS:
+        for command in commands.get_available_commands():
             console.write(command_x, command_y, command.name)
             command_y += 1
 
@@ -106,6 +108,15 @@ class AllMoviesPage(Page):
         """Create a page."""
         super().__init__("Movie List", 10, 10)
         self.movie_index = 0
+
+        def input_up():
+            self.movie_index -= 1  
+
+        def input_down():
+            self.movie_index += 1
+
+        self.commands.append(commands.Command("w", input_up))
+        self.commands.append(commands.Command("s", input_down))
 
     def render(self):
         """Render the page."""
@@ -119,15 +130,7 @@ class AllMoviesPage(Page):
         if self.error_message is None:
             number_of_rows += 1
 
-        # Handle up and down commands
-        # TODO: probably abstract this/make these commands
-        user_input = console.user_input.strip()
-        if user_input == "w":
-            self.movie_index -= 1  
-
-        if user_input == "s":
-            self.movie_index += 1
-        
+        # Clamp the movie index
         if self.movie_index < 0:
             self.movie_index = 0
 
@@ -217,8 +220,7 @@ current_page = HomePage()
 
 def render_current_page():
     """Render the current page of the UI."""
-    if current_page.commands_available:
-        handle_commands()
+    handle_commands()
 
     # Stop rendering if we exited
     if not console.is_running:
@@ -233,6 +235,9 @@ def render_current_page():
     # Render the UI
     render_common_ui()
     current_page.render()
+
+    # Reset stuff
+    current_page.error_message = None
 
 
 def handle_commands():

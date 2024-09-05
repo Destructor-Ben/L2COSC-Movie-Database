@@ -39,6 +39,6 @@ class Movie:
         self.star_rating = star_rating
         self.where_to_watch = where_to_watch
 
-    # TODO: temporary
     def __str__(self):
-        return f"[{self.id}] {self.name} <{self.audience_rating}> <{self.release_year}> <{self.runtime}m> <{self.genre}> <{self.star_rating}> <{self.where_to_watch}>"
+        output = f"[{self.id}] {self.name}"
+        return output

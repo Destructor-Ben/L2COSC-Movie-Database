@@ -55,10 +55,12 @@ def command_home():
 
 def command_movie(movie_name):
     """Go to the movie page."""
-    if movie_name == "all":
-        ui.current_page = ui.AllMoviesPage()
-    else:
-        ui.current_page = ui.MoviePage()
+    ui.current_page = ui.MoviePage()
+
+
+def command_movies():
+    """Go to the movie list page."""
+    ui.current_page = ui.AllMoviesPage()
 
 
 def command_search():
@@ -82,10 +84,11 @@ def command_reset():
 
 
 # List of commands
-COMMANDS = [
+commands = [
     Command("exit", command_exit),
     Command("home", command_home),
     Command("movie", command_movie),
+    Command("movies", command_movies),
     Command("search", command_search),
     Command("edit", command_edit),
     Command("delete", command_delete),
@@ -95,8 +98,12 @@ COMMANDS = [
 
 def find(name: str) -> Command | None:
     """Find a command with the given name."""
-    for command in COMMANDS:
-        if command.name == name:
+    for command in get_available_commands():
+        if command.name.lower() == name.lower():
             return command
 
     return None
+
+
+def get_available_commands() -> list[Command]:
+    return commands + ui.current_page.commands
