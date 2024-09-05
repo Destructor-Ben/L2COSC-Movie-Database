@@ -2,6 +2,8 @@
 
 import enum
 
+import mdb_ui as ui
+
 
 # TODO: actually use this enum
 class AudienceRating(enum.Enum):
@@ -40,5 +42,19 @@ class Movie:
         self.where_to_watch = where_to_watch
 
     def __str__(self):
+        # TODO: improve this
         output = f"[{self.id}] {self.name}"
+
+        if self.release_year is not None:
+            output += f" ({self.release_year})"
+
+        if self.audience_rating is not None:
+            output += f" {self.audience_rating}"
+
+        if self.runtime is not None:
+            output += f" {self.runtime}m"
+        
+        if self.star_rating is not None:
+            output += f" {ui.FULL_STAR_CHAR * self.star_rating}{ui.EMPTY_STAR_CHAR * (5 - self.star_rating)}"
+
         return output
