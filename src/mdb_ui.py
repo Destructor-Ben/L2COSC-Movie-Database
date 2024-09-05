@@ -1,5 +1,7 @@
 """The code related to managing the individual pages of the UI."""
 
+# TODO: finish UI
+
 import mdb_commands as commands
 import mdb_console as console
 
@@ -35,6 +37,8 @@ EMPTY_STAR_CHAR = "☆"
 COLOUR_GREEN = (43, 255, 100)
 COLOUR_YELLOW = (255, 245, 100)
 COLOUR_RED = (235, 64, 52)
+COLOUR_BLUE = (121, 184, 255)
+COLOUR_LIGHT_BLUE = (158, 203, 242)
 
 
 class Page:
@@ -154,7 +158,21 @@ def render_common_ui():
     console.write(2, 1, current_page.name, COLOUR_YELLOW)
 
     # Draw the error message
-    if current_page.error_message is None:
+    if current_page.error_message is not None:
+        console.write(2, -2, f"Error: {current_page.error_message}", COLOUR_RED)
+
+    # Draw the list of commands
+    commands_list = commands.get_available_commands()
+    if len(commands_list) <= 0:
         return
 
-    console.write(2, -2, f"Error: {current_page.error_message}", COLOUR_RED)
+    # TODO: proper x calculation
+    command_x = -30
+    command_y = 1
+
+    console.write(command_x, command_y, "Commands", COLOUR_YELLOW)
+    command_y += 2
+
+    for command in commands_list:
+        console.write(command_x, command_y, command, COLOUR_LIGHT_BLUE)
+        command_y += 1

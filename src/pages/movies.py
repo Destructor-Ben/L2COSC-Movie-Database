@@ -75,5 +75,5 @@ class AllMoviesPage(ui.Page):
                 break
 
             # Draw
-            console.write(2, movie_y, str(movies[i]))
+            console.write(2, movie_y, movies[i])
             movie_y += 1

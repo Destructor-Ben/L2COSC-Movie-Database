@@ -17,6 +17,16 @@ class Command:
         # Automatically figure out how many args there are
         self._arg_count = len(inspect.signature(action).parameters)
 
+    def __str__(self):
+        """Convert this command into a string."""
+        output = self.name
+
+        parameters = inspect.signature(self.action).parameters.keys()
+        for parameter in parameters:
+            output += f" [{parameter}]"
+
+        return output
+
     @property
     def name(self):
         """The name of the command."""
@@ -63,4 +73,7 @@ def find(name: str) -> Command | None:
 
 def get_available_commands() -> list[Command]:
     """Get a list of the available commands."""
-    return commands + ui.current_page.commands
+    if ui.current_page.global_commands_available:
+        return ui.current_page.commands + commands
+    else:
+        return ui.current_page.commands

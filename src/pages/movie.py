@@ -18,7 +18,7 @@ class MoviePage(ui.Page):
         super().__init__("Movie", 10, 10)
 
     @staticmethod
-    def command_movie():
+    def command_movie(movie_name):
         """Go to the movie page."""
         ui.current_page = MoviePage()
 

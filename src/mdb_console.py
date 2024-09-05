@@ -187,5 +187,5 @@ def write(
         y += height
 
     # Write each character
-    for i, char in enumerate(text):
+    for i, char in enumerate(str(text)):
         set(x + i, y, char, fg_colour, bg_colour)

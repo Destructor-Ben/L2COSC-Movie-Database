@@ -2,7 +2,7 @@
 
 import mdb_console as console
 import mdb_ui as ui
-from mdb_commands import Command, commands, get_available_commands
+from mdb_commands import Command, commands
 
 
 class HomePage(ui.Page):
@@ -38,15 +38,3 @@ class HomePage(ui.Page):
         name_x = logo_x + 9
         name_y = logo_y + 1 + ui.LOGO_HEIGHT
         console.write(name_x, name_y, "Movie Data Base")
-
-        # Draw the list of commands
-        # TODO: make this common ui
-        command_x = logo_x + ui.LOGO_WIDTH + 1
-        command_y = 2
-
-        console.write(command_x, command_y, "Commands", ui.COLOUR_YELLOW)
-        command_y += 1
-
-        for command in get_available_commands():
-            console.write(command_x, command_y, command.name)
-            command_y += 1
