@@ -100,4 +100,5 @@ def find(name: str) -> Command | None:
 
 
 def get_available_commands() -> list[Command]:
+    """Get a list of the available commands."""
     return commands + ui.current_page.commands

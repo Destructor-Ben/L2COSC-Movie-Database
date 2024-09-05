@@ -1,9 +1,9 @@
 """The movie list page of the UI."""
 
-from mdb_commands import commands, Command
 import mdb_console as console
 import mdb_database as db
 import mdb_ui as ui
+from mdb_commands import Command, commands
 
 
 class AllMoviesPage(ui.Page):
@@ -30,13 +30,13 @@ class AllMoviesPage(ui.Page):
     @staticmethod
     def command_up():
         """Scroll up the page."""
-        ui.current_page.movie_index -= 1  
+        ui.current_page.movie_index -= 1
 
     @staticmethod
     def command_down():
         """Scroll down the page."""
         ui.current_page.movie_index += 1
-    
+
     def render(self):
         """Render the page."""
         # Get the movies
@@ -44,8 +44,8 @@ class AllMoviesPage(ui.Page):
         num_movies = len(movies)
 
         # Calculate various values
-        PADDING = 3
-        number_of_rows = console.height - PADDING * 2
+        padding = 3
+        number_of_rows = console.height - padding * 2
         if self.error_message is None:
             number_of_rows += 1
 
@@ -58,15 +58,17 @@ class AllMoviesPage(ui.Page):
             self.movie_index = max_index
 
         # Draw the list
-        movie_y = PADDING
+        movie_y = padding
         for i in range(self.movie_index, num_movies):
             # Subtract the first value in the range to get a 0 based index of what is actually shown on screen
             index_drawn_in_list = i - self.movie_index
             if index_drawn_in_list >= number_of_rows:
                 break
 
+            # Exit the loop if we have gone too far
             if i >= num_movies:
                 break
 
+            # Draw
             console.write(2, movie_y, str(movies[i]))
             movie_y += 1

@@ -8,6 +8,7 @@ import mdb_ui as ui
 # TODO: actually use this enum
 class AudienceRating(enum.Enum):
     """An enum representing a rating for an audience."""
+
     G = enum.auto()
     PG = enum.auto()
     PG13 = enum.auto()
@@ -42,6 +43,7 @@ class Movie:
         self.where_to_watch = where_to_watch
 
     def __str__(self):
+        """Convert this movie into a string."""
         # TODO: improve this
         output = f"[{self.id}] {self.name}"
 
@@ -53,7 +55,7 @@ class Movie:
 
         if self.runtime is not None:
             output += f" {self.runtime}m"
-        
+
         if self.star_rating is not None:
             output += f" {ui.FULL_STAR_CHAR * self.star_rating}{ui.EMPTY_STAR_CHAR * (5 - self.star_rating)}"
 
