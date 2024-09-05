@@ -54,6 +54,11 @@ class AllMoviesPage(ui.Page):
             self.movie_index = 0
 
         max_index = num_movies - number_of_rows
+
+        # Also need to clamp the max index, since if there are more rows than movies, it goes negative
+        if max_index < 0:
+            max_index = 0
+
         if self.movie_index > max_index:
             self.movie_index = max_index
 
