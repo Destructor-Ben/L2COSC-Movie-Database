@@ -101,58 +101,6 @@ class HomePage(Page):
             command_y += 1
 
 
-class AllMoviesPage(Page):
-    """The move list page of the UI."""
-
-    def __init__(self):
-        """Create a page."""
-        super().__init__("Movie List", 10, 10)
-        self.movie_index = 0
-
-        def input_up():
-            self.movie_index -= 1  
-
-        def input_down():
-            self.movie_index += 1
-
-        self.commands.append(commands.Command("w", input_up))
-        self.commands.append(commands.Command("s", input_down))
-
-    def render(self):
-        """Render the page."""
-        # Get the movies
-        movies = db.get_all()
-        num_movies = len(movies)
-
-        # Calculate various values
-        PADDING = 3
-        number_of_rows = console.height - PADDING * 2
-        if self.error_message is None:
-            number_of_rows += 1
-
-        # Clamp the movie index
-        if self.movie_index < 0:
-            self.movie_index = 0
-
-        max_index = num_movies - number_of_rows
-        if self.movie_index > max_index:
-            self.movie_index = max_index
-
-        # Draw the list
-        movie_y = PADDING
-        for i in range(self.movie_index, num_movies):
-            # Subtract the first value in the range to get a 0 based index of what is actually shown on screen
-            index_drawn_in_list = i - self.movie_index
-            if index_drawn_in_list >= number_of_rows:
-                break
-
-            if i >= num_movies:
-                break
-
-            console.write(2, movie_y, str(movies[i]))
-            movie_y += 1
-
-
 class MoviePage(Page):
     """The movie info page of the UI."""
 
@@ -216,6 +164,14 @@ class ResetPage(Page):
 # endregion
 
 current_page = HomePage()
+
+
+def init_pages():
+    """Initialize the pages."""
+    # Only import them here since otherwise it causes a crash because the Page object doesn't exist yet
+    import pages.movies
+
+    pages.movies.AllMoviesPage.setup()
 
 
 def render_current_page():

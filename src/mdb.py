@@ -6,5 +6,6 @@ import mdb_ui as ui
 
 if __name__ == "__main__":
     db.setup()
+    ui.init_pages()
     console.setup(ui.render_current_page)
     console.run()

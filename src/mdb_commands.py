@@ -58,11 +58,6 @@ def command_movie(movie_name):
     ui.current_page = ui.MoviePage()
 
 
-def command_movies():
-    """Go to the movie list page."""
-    ui.current_page = ui.AllMoviesPage()
-
-
 def command_search():
     """Go to the search page."""
     ui.current_page = ui.SearchPage()
@@ -88,7 +83,6 @@ commands = [
     Command("exit", command_exit),
     Command("home", command_home),
     Command("movie", command_movie),
-    Command("movies", command_movies),
     Command("search", command_search),
     Command("edit", command_edit),
     Command("delete", command_delete),
