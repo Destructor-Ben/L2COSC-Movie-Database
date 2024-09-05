@@ -15,7 +15,7 @@ class HomePage(ui.Page):
 
     def __init__(self):
         """Create a page."""
-        super().__init__("Home", 10, 10)
+        super().__init__("Home", 10, 17)
 
     @staticmethod
     def command_home():
