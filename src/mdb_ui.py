@@ -59,46 +59,7 @@ class Page:
         """Render the page."""
         pass
 
-
-# TODO: finish the pages and commands
 # region Pages
-
-
-class HomePage(Page):
-    """The home page of the UI."""
-
-    def __init__(self):
-        """Create a page."""
-        super().__init__("Home", 10, 10)
-
-    def render(self):
-        """Render the page."""
-        # Coords of the top left of the logo
-        logo_x = 1
-        logo_y = 2
-
-        # Draw the logo
-        for x in range(LOGO_WIDTH):
-            for y in range(LOGO_HEIGHT):
-                # Y before X in this because the rows are ordered first
-                console.set(logo_x + x, logo_y + y, LOGO[y][x], COLOUR_GREEN)
-
-        # Print name
-        name_x = logo_x + 9
-        name_y = logo_y + 1 + LOGO_HEIGHT
-        console.write(name_x, name_y, "Movie Data Base")
-
-        # Draw the list of commands
-        # TODO: make this common ui
-        command_x = logo_x + LOGO_WIDTH + 1
-        command_y = 2
-
-        console.write(command_x, command_y, "Commands", COLOUR_YELLOW)
-        command_y += 1
-
-        for command in commands.get_available_commands():
-            console.write(command_x, command_y, command.name)
-            command_y += 1
 
 
 class MoviePage(Page):
@@ -163,15 +124,22 @@ class ResetPage(Page):
 
 # endregion
 
-current_page = HomePage()
+current_page: Page = None
 
 
 def init_pages():
     """Initialize the pages."""
     # Only import them here since otherwise it causes a crash because the Page object doesn't exist yet
+    import pages.home
     import pages.movies
 
+    # Static page init
+    pages.home.HomePage.setup()
     pages.movies.AllMoviesPage.setup()
+
+    # Set the default page
+    global current_page
+    current_page = pages.home.HomePage()
 
 
 def render_current_page():

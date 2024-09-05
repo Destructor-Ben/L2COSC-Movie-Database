@@ -1,7 +1,5 @@
 """The code related to commands."""
 
-# TODO: make all commands in their own files and be oop based
-
 import inspect
 
 import mdb_console as console
@@ -48,11 +46,6 @@ def command_exit():
     console.is_running = False
 
 
-def command_home():
-    """Go to the home page."""
-    ui.current_page = ui.HomePage()
-
-
 def command_movie(movie_name):
     """Go to the movie page."""
     ui.current_page = ui.MoviePage()
@@ -81,7 +74,6 @@ def command_reset():
 # List of commands
 commands = [
     Command("exit", command_exit),
-    Command("home", command_home),
     Command("movie", command_movie),
     Command("search", command_search),
     Command("edit", command_edit),
