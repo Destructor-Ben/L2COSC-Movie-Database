@@ -1,10 +1,7 @@
 """The code related to managing the individual pages of the UI."""
 
-# TODO: put all pages in their own files
-
 import mdb_commands as commands
 import mdb_console as console
-import mdb_database as db
 
 # Made from https://patorjk.com/software/taag/#p=display&f=Slant%20Relief&t=MDB
 # Made pretty with this: https://stackoverflow.com/questions/10660435/how-do-i-split-the-definition-of-a-long-string-over-multiple-lines
@@ -57,72 +54,8 @@ class Page:
 
     def render(self):
         """Render the page."""
-        pass
+        self.error_message = "Page has no render code"
 
-# region Pages
-
-
-class MoviePage(Page):
-    """The movie info page of the UI."""
-
-    def __init__(self):
-        """Create a page."""
-        super().__init__("Movie", 10, 10)
-
-    def render(self):
-        """Render the page."""
-        pass
-
-
-class SearchPage(Page):
-    """The search page of the UI."""
-
-    def __init__(self):
-        """Create a page."""
-        super().__init__("Search", 10, 10)
-
-    def render(self):
-        """Render the page."""
-        pass
-
-
-class EditPage(Page):
-    """The edit page of the UI."""
-
-    def __init__(self):
-        """Create a page."""
-        super().__init__("Edit", 10, 10)
-
-    def render(self):
-        """Render the page."""
-        pass
-
-
-class DeletePage(Page):
-    """The delete page of the UI."""
-
-    def __init__(self):
-        """Create a page."""
-        super().__init__("Delete", 10, 10)
-
-    def render(self):
-        """Render the page."""
-        pass
-
-
-class ResetPage(Page):
-    """The reset page of the UI."""
-
-    def __init__(self):
-        """Create a page."""
-        super().__init__("Reset", 10, 10)
-
-    def render(self):
-        """Render the page."""
-        db.reset()
-
-
-# endregion
 
 current_page: Page = None
 
@@ -130,12 +63,23 @@ current_page: Page = None
 def init_pages():
     """Initialize the pages."""
     # Only import them here since otherwise it causes a crash because the Page object doesn't exist yet
-    import pages.home
+    # Need to disable formatting order since the order of imports matters for the order of commands
+    import pages.home  # noqa: I001
+    import pages.movie
     import pages.movies
+    import pages.search
+    import pages.edit
+    import pages.delete
+    import pages.reset
 
     # Static page init
     pages.home.HomePage.setup()
+    pages.movie.MoviePage.setup()
     pages.movies.AllMoviesPage.setup()
+    pages.search.SearchPage.setup()
+    pages.edit.EditPage.setup()
+    pages.delete.DeletePage.setup()
+    pages.reset.ResetPage.setup()
 
     # Set the default page
     global current_page

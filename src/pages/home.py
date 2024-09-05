@@ -1,4 +1,4 @@
-"""The movie list page of the UI."""
+"""The home page of the UI."""
 
 import mdb_console as console
 import mdb_ui as ui

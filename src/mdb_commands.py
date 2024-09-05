@@ -46,39 +46,9 @@ def command_exit():
     console.is_running = False
 
 
-def command_movie(movie_name):
-    """Go to the movie page."""
-    ui.current_page = ui.MoviePage()
-
-
-def command_search():
-    """Go to the search page."""
-    ui.current_page = ui.SearchPage()
-
-
-def command_edit():
-    """Go to the edit page."""
-    ui.current_page = ui.EditPage()
-
-
-def command_delete():
-    """Go to the delete page."""
-    ui.current_page = ui.DeletePage()
-
-
-def command_reset():
-    """Go to the reset page."""
-    ui.current_page = ui.ResetPage()
-
-
 # List of commands
 commands = [
     Command("exit", command_exit),
-    Command("movie", command_movie),
-    Command("search", command_search),
-    Command("edit", command_edit),
-    Command("delete", command_delete),
-    Command("reset", command_reset),
 ]
 
 
