@@ -166,13 +166,25 @@ def render_common_ui():
     if len(commands_list) <= 0:
         return
 
-    # TODO: proper x calculation
-    command_x = -30
+    # Calculate the widest command and add padding
+    widest_command = max([len(str(command)) for command in commands_list])
+    widest_command += 2
+
+    command_x = -widest_command
     command_y = 1
 
+    # Draw the left barrier
+    for y in range(console.height):
+        console.set(command_x - 2, y, VERTICAL_BAR_CHAR)
+    
+    console.set(command_x - 2, 0, T_BAR_CHARS[2])
+    console.set(command_x - 2, -1, T_BAR_CHARS[3])
+
+    # Header
     console.write(command_x, command_y, "Commands", COLOUR_YELLOW)
     command_y += 2
 
+    # List of commands
     for command in commands_list:
         console.write(command_x, command_y, command, COLOUR_LIGHT_BLUE)
         command_y += 1
