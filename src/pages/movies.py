@@ -9,6 +9,8 @@ from mdb_commands import Command, commands
 class AllMoviesPage(ui.Page):
     """The movie list page of the UI."""
 
+    PADDING = 3
+
     @staticmethod
     def setup():
         """Initialize the page."""
@@ -30,12 +32,16 @@ class AllMoviesPage(ui.Page):
     @staticmethod
     def command_up():
         """Scroll up the page."""
-        ui.current_page.movie_index -= 1
+        ui.current_page.movie_index -= AllMoviesPage.get_number_of_rows()
 
     @staticmethod
     def command_down():
         """Scroll down the page."""
-        ui.current_page.movie_index += 1
+        ui.current_page.movie_index += AllMoviesPage.get_number_of_rows()
+    
+    @staticmethod
+    def get_number_of_rows():
+        return console.height - AllMoviesPage.PADDING * 2
 
     def render(self):
         """Render the page."""
@@ -44,8 +50,7 @@ class AllMoviesPage(ui.Page):
         num_movies = len(movies)
 
         # Calculate various values
-        padding = 3
-        number_of_rows = console.height - padding * 2
+        number_of_rows = AllMoviesPage.get_number_of_rows()
         if self.error_message is None:
             number_of_rows += 1
 
@@ -63,7 +68,7 @@ class AllMoviesPage(ui.Page):
             self.movie_index = max_index
 
         # Draw the list
-        movie_y = padding
+        movie_y = AllMoviesPage.PADDING
         for i in range(self.movie_index, num_movies):
             # Subtract the first value in the range to get a 0 based index of what is actually shown on screen
             index_drawn_in_list = i - self.movie_index
