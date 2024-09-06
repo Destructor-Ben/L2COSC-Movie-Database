@@ -68,6 +68,10 @@ class AllMoviesPage(ui.Page):
             self.movie_index = max_index
 
         # Draw the list
+        # TODO: align everything
+        # TODO: add an end of list indicator
+        # TODO: possible make the up and down commands be "up" and "down" instead of w and s
+        # TODO: possibly make the up and down commands error if they can't scroll (user feedback)
         movie_y = AllMoviesPage.PADDING
         for i in range(self.movie_index, num_movies):
             # Subtract the first value in the range to get a 0 based index of what is actually shown on screen
