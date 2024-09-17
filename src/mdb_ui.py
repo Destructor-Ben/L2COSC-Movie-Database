@@ -167,7 +167,7 @@ def render_common_ui():
         return
 
     # Calculate the widest command and add padding
-    widest_command = max([len(str(command)) for command in commands_list])
+    widest_command = max([len(str(command)) for command in commands_list + ["Commands"]])
     widest_command += 2
 
     command_x = -widest_command
