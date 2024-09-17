@@ -105,8 +105,8 @@ def render_current_page():
         return
 
     # Render the UI
-    render_common_ui()
     current_page.render()
+    render_common_ui()
 
     # Reset stuff
     current_page.error_message = None
