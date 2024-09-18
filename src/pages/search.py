@@ -1,6 +1,6 @@
 """The search page of the UI."""
 
-# TODO: implement
+# TODO: implement - the args will be the column name and the value to search for
 
 import mdb_console as console
 import mdb_ui as ui

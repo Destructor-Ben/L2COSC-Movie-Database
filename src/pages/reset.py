@@ -29,7 +29,7 @@ class ResetPage(ui.Page):
 
     @staticmethod
     def command_yes():
-        """Called when the user enters "no"."""
+        """Call when the user enters "no"."""
         db.reset()
         ui.current_page.database_reset = True
 
@@ -39,7 +39,7 @@ class ResetPage(ui.Page):
 
     @staticmethod
     def command_no():
-        """Called when the user enters "no"."""
+        """Call when the user enters "no"."""
         ui.current_page.database_reset = False
 
         # Allow the user to leave

@@ -29,12 +29,14 @@ def insert_initial_data():
         return
 
     # Create the table
+    min_ar = AudienceRating.START.value
+    max_ar = AudienceRating.COUNT.value
     database.execute(f"""
     CREATE TABLE {MOVIES_TABLE} (
         ID INTEGER PRIMARY KEY,
         Name TEXT NOT NULL     CHECK(length(Name) > 0 AND length(Name) <= 100),
         ReleaseYear INTEGER    CHECK(ReleaseYear >= 1800 AND ReleaseYear <= 2100),
-        AudienceRating INTEGER CHECK(AudienceRating > {AudienceRating.START.value} AND AudienceRating < {AudienceRating.COUNT.value}),
+        AudienceRating INTEGER CHECK(AudienceRating > {min_ar} AND AudienceRating < {max_ar}),
         Runtime INTEGER        CHECK(Runtime > 0 AND Runtime <= 600),
         Genre TEXT             CHECK(length(Genre) <= 100),
         StarRating INTEGER     CHECK(StarRating > 0 AND StarRating <= 5),
@@ -152,10 +154,13 @@ def delete(id: int):
 
 def get(id: int) -> Movie:
     """Get an entry from the database via ID."""
-    response = database.execute(f"""
+    response = database.execute(
+        f"""
     SELECT ID, Name, ReleaseYear, AudienceRating, Runtime, Genre, StarRating, WhereToWatch
         FROM {MOVIES_TABLE} WHERE ID = ?;
-    """, (id,)).fetchone()
+    """,
+        (id,),
+    ).fetchone()
 
     if response is None:
         return None

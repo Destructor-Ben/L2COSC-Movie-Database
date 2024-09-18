@@ -178,7 +178,7 @@ def render_common_ui():
     # Draw the left barrier
     for y in range(console.height):
         console.set(command_x - 2, y, VERTICAL_BAR_CHAR)
-    
+
     console.set(command_x - 2, 0, T_BAR_CHARS[2])
     console.set(command_x - 2, -1, T_BAR_CHARS[3])
 

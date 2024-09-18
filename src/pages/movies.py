@@ -38,9 +38,10 @@ class AllMoviesPage(ui.Page):
     def command_down():
         """Scroll down the page."""
         ui.current_page.movie_index += AllMoviesPage.get_number_of_rows()
-    
+
     @staticmethod
     def get_number_of_rows():
+        """Get the number of movies that can be displayed."""
         return console.height - AllMoviesPage.PADDING * 2 - 1
 
     def render(self):

@@ -1,6 +1,6 @@
 """The insert page of the UI."""
 
-# TODO: implement
+# TODO: implement - This won't have any args in the command
 
 import mdb_console as console
 import mdb_ui as ui
