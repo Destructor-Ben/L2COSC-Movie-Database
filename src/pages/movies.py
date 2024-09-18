@@ -41,10 +41,13 @@ class AllMoviesPage(ui.Page):
     
     @staticmethod
     def get_number_of_rows():
-        return console.height - AllMoviesPage.PADDING * 2
+        return console.height - AllMoviesPage.PADDING * 2 - 1
 
     def render(self):
         """Render the page."""
+        # Write a message to make it clear on how to use it
+        console.write(2, 2, "Type 'w' or 's' and press enter to scroll up or down", ui.COLOUR_LIGHT_BLUE)
+
         # Get the movies
         movies = db.get_all()
         num_movies = len(movies)
@@ -68,11 +71,12 @@ class AllMoviesPage(ui.Page):
             self.movie_index = max_index
 
         # Draw the list
+        # 1 addded for the message about how to scroll
         # TODO: align everything
         # TODO: add an end of list indicator
         # TODO: possible make the up and down commands be "up" and "down" instead of w and s
         # TODO: possibly make the up and down commands error if they can't scroll (user feedback)
-        movie_y = AllMoviesPage.PADDING
+        movie_y = AllMoviesPage.PADDING + 1
         for i in range(self.movie_index, num_movies):
             # Subtract the first value in the range to get a 0 based index of what is actually shown on screen
             index_drawn_in_list = i - self.movie_index
