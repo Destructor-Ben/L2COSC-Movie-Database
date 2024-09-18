@@ -1,6 +1,6 @@
 """The code related to managing the individual pages of the UI."""
 
-# TODO: finish UI
+# TODO: implement minimum sizes
 
 import mdb_commands as commands
 import mdb_console as console
