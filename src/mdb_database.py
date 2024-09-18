@@ -8,42 +8,6 @@ MOVIES_TABLE = "MOVIES"
 
 database: sqlite3.Connection = None
 
-"""Movies to be added:
-001,Ghostbusters,2016,PG,116,Comedy
-002,The Legend of Tarzan,2016,PG,109,Action
-003,Jason Bourne,2016,PG,123,Action
-004,The Nice Guys,2016,R,116,Crime
-005,The Secret Life of Pets,2016,G,91,Animation
-006,Star Trek Beyond,2016,PG,120,Action
-007,Batman v Superman,2016,PG,151,Action
-008,Finding Dory,2016,G,103,Animation
-009,Zootopia,2016,G,108,Animation
-010,The BFG,2016,PG,90,Fantasy
-011,A Monster Calls,2016,PG,108,Fantasy
-012,Independence Day: Resurgence,2016,PG,120,Action
-013,The Green Room,2016,R,94,Crime
-014,Doctor Strange,2016,PG,130,Fantasy
-015,The Jungle Book,2016,PG,105,Fantasy
-016,Alice Through the Looking Glass,2016,PG,118,Fantasy
-017,Imperium,2016,R,109,Crime
-018,The Infiltrator,2016,R,127,Crime
-019,Mad Max: Fury Road,2015,R,120,Action
-020,Spectre,2015,PG,145,Action
-021,Jurassic World,2015,PG,100,Action
-022,The Intern,2015,PG,121,Comedy
-023,Ted 2,2015,R,121,Comedy
-024,Trainwreck,2015,R,122,Comedy
-025,Inside Out,2015,PG,94,Animation
-026,The Good Dinosaur,2015,G,101,Animation
-027,Divergent,2014,PG,121,Action
-028,The Max Runner,2014,PG,115,Action
-029,Birdman,2014,R,119,Comedy
-030,Guardians of the Galaxy,2014,PG,121,Fantasy
-031,The Lego Movie,2014,PG,100,Animation
-032,Big Hero 6,2014,PG,108,Animation
-033,The Drop,2014,R,106,Crime
-"""
-
 
 def setup():
     """Set up the database utilities.
@@ -80,13 +44,44 @@ def insert_initial_data():
 
     # Add the initial data
     # Dummy IDs are used because they don't matter and are automatically assigned by the database
-    # TODO: more initial data
-    insert(Movie(0, "FizzBuzz", 2001, AudienceRating.R16, 102, "Romance", 1, "https://example.com"))
-    insert(Movie(0, "Among Us", 2020, AudienceRating.NC18, 420, "Horror", 5, "https://sigma.com"))
-    insert(Movie(0, "FNAF", 1987, AudienceRating.PG13, 167, "Thriller", 4, "https://fnaf.com"))
+    initial_movies = [
+        Movie(0, "Ghostbusters", 2016, AudienceRating.PG, 116, [Genre.COMEDY], 4, "Netflix"),
+        Movie(0, "The Legend of Tarzan", 2016, AudienceRating.PG, 109, [Genre.ACTION], 3, "Hulu"),
+        Movie(0, "Jason Bourne", 2016, AudienceRating.PG, 123, [Genre.ACTION], 4, "Amazon Prime"),
+        Movie(0, "The Nice Guys", 2016, AudienceRating.R13, 116, [Genre.CRIME], 4, "HBO Max"),
+        Movie(0, "The Secret Life of Pets", 2016, AudienceRating.G, 91, [Genre.ANIMATION], 3, "Disney+"),
+        Movie(0, "Star Trek Beyond", 2016, AudienceRating.PG, 120, [Genre.ACTION], 4, "Paramount+"),
+        Movie(0, "Batman v Superman", 2016, AudienceRating.PG, 151, [Genre.ACTION], 3, "HBO Max"),
+        Movie(0, "Finding Dory", 2016, AudienceRating.G, 103, [Genre.ANIMATION], 4, "Disney+"),
+        Movie(0, "Zootopia", 2016, AudienceRating.G, 108, [Genre.ANIMATION], 5, "Disney+"),
+        Movie(0, "The BFG", 2016, AudienceRating.PG, 90, [Genre.FANTASY], 3, "Netflix"),
+        Movie(0, "A Monster Calls", 2016, AudienceRating.PG, 108, [Genre.FANTASY], 4, "Amazon Prime"),
+        Movie(0, "Independence Day: Resurgence", 2016, AudienceRating.PG, 120, [Genre.ACTION], 3, "HBO Max"),
+        Movie(0, "The Green Room", 2016, AudienceRating.R13, 94, [Genre.CRIME], 4, "Hulu"),
+        Movie(0, "Doctor Strange", 2016, AudienceRating.PG, 130, [Genre.FANTASY], 4, "Disney+"),
+        Movie(0, "The Jungle Book", 2016, AudienceRating.PG, 105, [Genre.FANTASY], 5, "Disney+"),
+        Movie(0, "Alice Through the Looking Glass", 2016, AudienceRating.PG, 118, [Genre.FANTASY], 3, "Disney+"),
+        Movie(0, "Imperium", 2016, AudienceRating.R13, 109, [Genre.CRIME], 4, "Hulu"),
+        Movie(0, "The Infiltrator", 2016, AudienceRating.R13, 127, [Genre.CRIME], 4, "Amazon Prime"),
+        Movie(0, "Mad Max: Fury Road", 2015, AudienceRating.R13, 120, [Genre.ACTION], 5, "HBO Max"),
+        Movie(0, "Spectre", 2015, AudienceRating.PG, 145, [Genre.ACTION], 4, "Amazon Prime"),
+        Movie(0, "Jurassic World", 2015, AudienceRating.PG, 100, [Genre.ACTION], 4, "Peacock"),
+        Movie(0, "The Intern", 2015, AudienceRating.PG, 121, [Genre.COMEDY], 3, "Netflix"),
+        Movie(0, "Ted 2", 2015, AudienceRating.R13, 121, [Genre.COMEDY], 3, "Amazon Prime"),
+        Movie(0, "Trainwreck", 2015, AudienceRating.R13, 122, [Genre.COMEDY], 3, "HBO Max"),
+        Movie(0, "Inside Out", 2015, AudienceRating.PG, 94, [Genre.ANIMATION], 5, "Disney+"),
+        Movie(0, "The Good Dinosaur", 2015, AudienceRating.G, 101, [Genre.ANIMATION], 4, "Disney+"),
+        Movie(0, "Divergent", 2014, AudienceRating.PG, 121, [Genre.ACTION], 3, "Netflix"),
+        Movie(0, "The Maze Runner", 2014, AudienceRating.PG, 115, [Genre.ACTION], 4, "Disney+"),
+        Movie(0, "Birdman", 2014, AudienceRating.R13, 119, [Genre.COMEDY], 4, "Hulu"),
+        Movie(0, "Guardians of the Galaxy", 2014, AudienceRating.PG, 121, [Genre.FANTASY], 5, "Disney+"),
+        Movie(0, "The Lego Movie", 2014, AudienceRating.PG, 100, [Genre.ANIMATION], 5, "Netflix"),
+        Movie(0, "Big Hero 6", 2014, AudienceRating.PG, 108, [Genre.ANIMATION], 5, "Disney+"),
+        Movie(0, "The Drop", 2014, AudienceRating.R13, 106, [Genre.CRIME], 4, "Hulu"),
+    ]
 
-    for i in range(1, 15):
-        insert(Movie(0, "a" * i))
+    for movie in initial_movies:
+        insert(movie)
 
 
 def reset():
