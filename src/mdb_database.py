@@ -124,7 +124,7 @@ def insert(movie: Movie):
 def edit(new_movie: Movie):
     """Edit an entry from the database by updating all of the fields using the given movie."""
     query = f"""
-    UPDATE {MOVIES_TABLE} SET (
+    UPDATE {MOVIES_TABLE} SET
         Name = ?,
         ReleaseYear = ?,
         AudienceRating = ?,
@@ -132,7 +132,7 @@ def edit(new_movie: Movie):
         Genre = ?,
         StarRating = ?,
         WhereToWatch = ?
-    ) WHERE ID = {new_movie.id};
+    WHERE ID = ?;
     """
 
     parameters = (
@@ -143,6 +143,7 @@ def edit(new_movie: Movie):
         new_movie.genre,
         new_movie.star_rating,
         new_movie.where_to_watch,
+        new_movie.id,
     )
 
     database.execute(query, parameters)
@@ -151,15 +152,19 @@ def edit(new_movie: Movie):
 
 def delete(id: int):
     """Delete an entry from the database via ID."""
-    database.execute(f"DELETE FROM {MOVIES_TABLE} WHERE ID = {id};")
+    database.execute(f"DELETE FROM {MOVIES_TABLE} WHERE ID = ?;", (id,))
+    database.commit()
 
 
 def get(id: int) -> Movie:
     """Get an entry from the database via ID."""
     response = database.execute(f"""
     SELECT ID, Name, ReleaseYear, AudienceRating, Runtime, Genre, StarRating, WhereToWatch
-        FROM {MOVIES_TABLE} WHERE ID = {id};
-    """)
+        FROM {MOVIES_TABLE} WHERE ID = ?;
+    """, (id,)).fetchone()
+
+    if response is None:
+        return None
 
     return Movie(response[0], response[1], response[2], response[3], response[4], response[5], response[6], response[7])
 
