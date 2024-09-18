@@ -2,7 +2,7 @@
 
 import sqlite3
 
-from mdb_movie import Movie
+from mdb_movie import AudienceRating, Genre, Movie
 
 MOVIES_TABLE = "MOVIES"
 
@@ -65,28 +65,27 @@ def insert_initial_data():
         return
 
     # Create the table
-    # TODO: contraints
     database.execute(f"""
     CREATE TABLE {MOVIES_TABLE} (
         ID INTEGER PRIMARY KEY,
-        Name TEXT NOT NULL,
-        ReleaseYear INTEGER,
-        AudienceRating TEXT,
-        Runtime INTEGER,
-        Genre TEXT,
-        StarRating INTEGER,
-        WhereToWatch TEXT
+        Name TEXT NOT NULL     CHECK(length(Name) > 0 AND length(Name) <= 100),
+        ReleaseYear INTEGER    CHECK(ReleaseYear >= 1800 AND ReleaseYear <= 2100),
+        AudienceRating INTEGER CHECK(AudienceRating > {AudienceRating.START.value} AND AudienceRating < {AudienceRating.COUNT.value}),
+        Runtime INTEGER        CHECK(Runtime > 0 AND Runtime <= 600),
+        Genre TEXT             CHECK(length(Genre) <= 100),
+        StarRating INTEGER     CHECK(StarRating > 0 AND StarRating <= 5),
+        WhereToWatch TEXT      CHECK(length(WhereToWatch) <= 200)
     );
     """)
 
     # Add the initial data
     # Dummy IDs are used because they don't matter and are automatically assigned by the database
     # TODO: more initial data
-    insert(Movie(0, "FizzBuzz", 2001, "R-16", 102, "Romance", 1, "https://example.com"))
-    insert(Movie(0, "Among Us", 2020, "NC-18", 69420, "Horror", 5, "https://sigma.com"))
-    insert(Movie(0, "FNAF", 1987, "PG-13", 167, "Thriller", 4, "https://fnaf.com"))
+    insert(Movie(0, "FizzBuzz", 2001, AudienceRating.R16, 102, "Romance", 1, "https://example.com"))
+    insert(Movie(0, "Among Us", 2020, AudienceRating.NC18, 420, "Horror", 5, "https://sigma.com"))
+    insert(Movie(0, "FNAF", 1987, AudienceRating.PG13, 167, "Thriller", 4, "https://fnaf.com"))
 
-    for i in range(15):
+    for i in range(1, 15):
         insert(Movie(0, "a" * i))
 
 
@@ -110,9 +109,9 @@ def insert(movie: Movie):
     parameters = (
         movie.name,
         movie.release_year,
-        movie.audience_rating,
+        movie.get_audience_rating_value(),
         movie.runtime,
-        movie.genre,
+        movie.get_genre_string(),
         movie.star_rating,
         movie.where_to_watch,
     )
@@ -138,9 +137,9 @@ def edit(new_movie: Movie):
     parameters = (
         new_movie.name,
         new_movie.release_year,
-        new_movie.audience_rating,
+        new_movie.get_audience_rating_value(),
         new_movie.runtime,
-        new_movie.genre,
+        new_movie.get_genre_string(),
         new_movie.star_rating,
         new_movie.where_to_watch,
         new_movie.id,
