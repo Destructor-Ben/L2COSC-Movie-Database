@@ -49,7 +49,7 @@ class ResetPage(ui.Page):
     def render(self):
         """Render the page."""
         message_x = 2
-        message_y = 3
+        message_y = 2
 
         # Write a message so the user knows whats happening
         if self.database_reset is None:
