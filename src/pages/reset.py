@@ -7,7 +7,7 @@ from mdb_commands import Command, commands
 
 
 class ResetPage(ui.Page):
-    """The Reset page of the UI."""
+    """The reset page of the UI."""
 
     @staticmethod
     def setup():

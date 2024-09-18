@@ -71,6 +71,7 @@ def init_pages():
     import pages.home  # noqa: I001
     import pages.movie
     import pages.movies
+    import pages.insert
     import pages.search
     import pages.edit
     import pages.delete
@@ -80,6 +81,7 @@ def init_pages():
     pages.home.HomePage.setup()
     pages.movie.MoviePage.setup()
     pages.movies.AllMoviesPage.setup()
+    pages.insert.InsertPage.setup()
     pages.search.SearchPage.setup()
     pages.edit.EditPage.setup()
     pages.delete.DeletePage.setup()

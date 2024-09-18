@@ -1,12 +1,14 @@
 """The delete page of the UI."""
 
+# TODO: implement
+
 import mdb_console as console
 import mdb_ui as ui
 from mdb_commands import Command, commands
 
 
 class DeletePage(ui.Page):
-    """The Delete page of the UI."""
+    """The delete page of the UI."""
 
     @staticmethod
     def setup():

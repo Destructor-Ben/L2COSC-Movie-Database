@@ -8,7 +8,7 @@ from mdb_commands import Command, commands
 
 # TODO: improve this
 class MoviePage(ui.Page):
-    """The Movie page of the UI."""
+    """The movie page of the UI."""
 
     @staticmethod
     def setup():
