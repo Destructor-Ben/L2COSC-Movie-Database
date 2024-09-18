@@ -6,6 +6,7 @@ import mdb_ui as ui
 from mdb_commands import Command, commands
 
 
+# TODO: improve this
 class MoviePage(ui.Page):
     """The Movie page of the UI."""
 
@@ -46,7 +47,7 @@ class MoviePage(ui.Page):
         y += 1
         console.write(x, y, self.movie.runtime)
         y += 1
-        console.write(x, y, self.movie.genre)
+        console.write(x, y, ", ".join(map(lambda g: str(g), self.movie.genre)))
         y += 1
         console.write(x, y, self.movie.star_rating)
         y += 1
