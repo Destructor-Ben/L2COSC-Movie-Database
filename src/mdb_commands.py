@@ -73,6 +73,11 @@ def find(name: str) -> Command | None:
 
 def get_available_commands() -> list[Command]:
     """Get a list of the available commands."""
+    # Return if we are getting input
+    if ui.current_page.getting_input:
+        return []
+
+    # Otherwise check if we are allowed global commands
     if ui.current_page.global_commands_available:
         return ui.current_page.commands + commands
     else:

@@ -54,6 +54,7 @@ class Page:
         # Mutable
         self.error_message = None
         self.global_commands_available = True
+        self.getting_input = False
         self.commands = []
 
     def render(self):
@@ -116,6 +117,10 @@ def render_current_page():
 
 def handle_commands():
     """Handle commands."""
+    # Return if we are getting input
+    if current_page.getting_input:
+        return
+
     # Return if there is no user input
     if console.user_input is None:
         return
