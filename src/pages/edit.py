@@ -20,9 +20,10 @@ class EditPage(ui.Page):
         super().__init__("Edit", 10, 10)
 
     @staticmethod
-    def command_edit():
+    def command_edit(movie_id):
         """Go to the edit page."""
         ui.current_page = EditPage()
 
     def render(self):
         """Render the page."""
+        console.write(2, 2, "SIGMA")
