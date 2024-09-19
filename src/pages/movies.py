@@ -44,13 +44,17 @@ class AllMoviesPage(ui.Page):
         """Get the number of movies that can be displayed."""
         return console.height - AllMoviesPage.PADDING * 2 - 1
 
+    def get_movies(self):
+        """Get the movies to be displayed"""
+        return db.get_all()
+
     def render(self):
         """Render the page."""
         # Write a message to make it clear on how to use it
         console.write(2, 2, "Type 'w' or 's' and press enter to scroll up or down", ui.COLOUR_LIGHT_BLUE)
 
         # Get the movies
-        movies = db.get_all()
+        movies = self.get_movies()
         num_movies = len(movies)
 
         # Calculate various values

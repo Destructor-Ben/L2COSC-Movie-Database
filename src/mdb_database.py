@@ -176,3 +176,14 @@ def get_all() -> list[Movie]:
     """)
 
     return [Movie(movie[0], movie[1], movie[2], movie[3], movie[4], movie[5], movie[6], movie[7]) for movie in response]
+
+
+def get_filter(attribute: str, query: str) -> list[Movie]:
+    """Get all entries from the database with a filter."""
+    response = database.execute(f"""
+    SELECT ID, Name, ReleaseYear, AudienceRating, Runtime, Genre, StarRating, WhereToWatch
+        FROM {MOVIES_TABLE}
+        WHERE {attribute} = ?;
+    """, (query,))
+
+    return [Movie(movie[0], movie[1], movie[2], movie[3], movie[4], movie[5], movie[6], movie[7]) for movie in response]
