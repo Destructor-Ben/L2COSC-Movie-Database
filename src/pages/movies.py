@@ -51,7 +51,7 @@ class AllMoviesPage(ui.Page):
     def render(self):
         """Render the page."""
         # Write a message to make it clear on how to use it
-        console.write(2, 2, "Type 'w' or 's' and press enter to scroll up or down", ui.COLOUR_LIGHT_BLUE)
+        console.write(2, 2, "Type 'w' or 's' and press enter to scroll up or down", ui.COLOUR_BLUE)
 
         # Get the movies
         movies = self.get_movies()
