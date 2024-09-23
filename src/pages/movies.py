@@ -79,6 +79,7 @@ class AllMoviesPage(ui.Page):
         # 1 addded for the message about how to scroll
         # TODO: align everything
         # TODO: add an end of list indicator
+        # TODO: add an empty list indicator
         # TODO: possible make the up and down commands be "up" and "down" instead of w and s
         # TODO: possibly make the up and down commands error if they can't scroll (user feedback)
         movie_y = AllMoviesPage.PADDING + 1

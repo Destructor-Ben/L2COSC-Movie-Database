@@ -1,6 +1,7 @@
 """The edit page of the UI."""
 
 # TODO: implement - the only arg will be the movie id
+# Base this off the insert page
 
 import mdb_console as console
 import mdb_ui as ui
