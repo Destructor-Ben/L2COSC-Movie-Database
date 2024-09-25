@@ -298,7 +298,7 @@ class MovieField(enum.Enum):
             case _:
                 return (False, user_input, f"Unknown movie field: {self}")
 
-    # TODO: improve the prompts to tell the user what restrictions there are
+    # TODO: reduce duplication
     def get_insert_prompt(self) -> str:
         """Get a prompt for this field for when the user is entering the value for this field."""
         message = f"Invalid movie field: {self}"
@@ -306,31 +306,46 @@ class MovieField(enum.Enum):
         match self:
             case MovieField.NAME:
                 message = "What is the name of the movie?"
+                message += "\nRequired"
+                message += "\nMax 100 characters"
             case MovieField.RELEASE_YEAR:
                 message = "What is the release year of the movie?"
                 message += "\nPress Enter to skip"
+                message += "\nMust be between 1800 and 2100 (inclusive)"
             case MovieField.AUDIENCE_RATING:
                 message = "What is the audience rating of the movie?"
                 message += "\nPress Enter to skip"
-                message += "\nAudience Ratings:"
+                message += "\nValid Audience Ratings:"
                 for rating in AudienceRating:
                     message += f"\n- {rating}"
             case MovieField.RUNTIME:
                 message = "What is the runtime of the movie in minutes?"
                 message += "\nPress Enter to skip"
+                message += "\nMust be between 1 and 600 (inclusive)"
             case MovieField.GENRE:
                 message = "What are the genres of the movie? (enter a comma separated list)"
                 message += "\nPress Enter to skip"
                 message += "\nAvailable genres:"
-                # TODO: this list will be LONG
-                for genre in Genre:
-                    message += f"\n- {genre}"
+
+                # Create the genre list by breaking it into 3 lines
+                genres = list(Genre)
+                num_lines = 3
+                for i in range(num_lines):
+                    chunk_size = len(genres) // num_lines
+                    start_index = i * chunk_size
+                    end_index = i * chunk_size + chunk_size
+
+                    line_genres = genres[start_index:end_index]
+                    message += "\n"
+                    message += ", ".join(map(lambda g: str(g), line_genres))
             case MovieField.STAR_RATING:
                 message = "What is the star rating of the movie?"
                 message += "\nPress Enter to skip"
+                message += "\nMust be between 0 and 5 (inclusive)"
             case MovieField.WHERE_TO_WATCH:
                 message = "Where can the movie be watched?"
                 message += "\nPress Enter to skip"
+                message += "\nMax 100 characters"
 
         return message
 
@@ -342,31 +357,45 @@ class MovieField(enum.Enum):
             case MovieField.NAME:
                 message = "What is the new name of the movie?"
                 message += "\nPress Enter to skip"
+                message += "\nMax 100 characters"
             case MovieField.RELEASE_YEAR:
                 message = "What is the new release year of the movie?"
                 message += "\nPress Enter to skip"
+                message += "\nMust be between 1800 and 2100 (inclusive)"
             case MovieField.AUDIENCE_RATING:
                 message = "What is the new audience rating of the movie?"
                 message += "\nPress Enter to skip"
-                message += "\nAudience Ratings:"
+                message += "\nValid Audience Ratings:"
                 for rating in AudienceRating:
                     message += f"\n- {rating}"
             case MovieField.RUNTIME:
                 message = "What is the new runtime of the movie in minutes?"
                 message += "\nPress Enter to skip"
+                message += "\nMust be between 1 and 600 (inclusive)"
             case MovieField.GENRE:
                 message = "What are the new genres of the movie? (enter a comma separated list)"
                 message += "\nPress Enter to skip"
                 message += "\nAvailable genres:"
-                # TODO: this list will be LONG
-                for genre in Genre:
-                    message += f"\n- {genre}"
+
+                # Create the genre list by breaking it into 3 lines
+                genres = list(Genre)
+                num_lines = 3
+                for i in range(num_lines):
+                    chunk_size = len(genres) // num_lines
+                    start_index = i * chunk_size
+                    end_index = i * chunk_size + chunk_size
+
+                    line_genres = genres[start_index:end_index]
+                    message += "\n"
+                    message += ", ".join(map(lambda g: str(g), line_genres))
             case MovieField.STAR_RATING:
                 message = "What is the new star rating of the movie?"
                 message += "\nPress Enter to skip"
+                message += "\nMust be between 0 and 5 (inclusive)"
             case MovieField.WHERE_TO_WATCH:
-                message = "Where is the new place the movie can be watched?"
+                message = "Where can the movie be watched?"
                 message += "\nPress Enter to skip"
+                message += "\nMax 100 characters"
 
         return message
 
