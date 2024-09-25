@@ -14,7 +14,7 @@ class AllMoviesPage(ui.Page):
     @staticmethod
     def setup():
         """Initialize the page."""
-        commands.append(Command("movies", AllMoviesPage.command_movies))
+        commands.append(Command("view_all", AllMoviesPage.command_movies))
 
     def __init__(self):
         """Create a page."""
