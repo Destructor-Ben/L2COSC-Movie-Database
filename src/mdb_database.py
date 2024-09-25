@@ -29,26 +29,26 @@ def insert_initial_data():
         return
 
     # Create the table
-    min_ar = AudienceRating.START.value
-    max_ar = AudienceRating.COUNT.value
+    min_ar = AudienceRating.G.value
+    max_ar = AudienceRating.NC18.value
     database.execute(f"""
     CREATE TABLE {MOVIES_TABLE} (
         ID INTEGER PRIMARY KEY,
         Name TEXT NOT NULL     CHECK(length(Name) > 0 AND length(Name) <= 100),
         ReleaseYear INTEGER    CHECK(ReleaseYear >= 1800 AND ReleaseYear <= 2100),
-        AudienceRating INTEGER CHECK(AudienceRating > {min_ar} AND AudienceRating < {max_ar}),
+        AudienceRating INTEGER CHECK(AudienceRating >= {min_ar} AND AudienceRating <= {max_ar}),
         Runtime INTEGER        CHECK(Runtime > 0 AND Runtime <= 600),
-        Genre TEXT             CHECK(length(Genre) <= 100),
+        Genre TEXT,
         StarRating INTEGER     CHECK(StarRating > 0 AND StarRating <= 5),
-        WhereToWatch TEXT      CHECK(length(WhereToWatch) <= 200)
+        WhereToWatch TEXT      CHECK(length(WhereToWatch) <= 100)
     );
     """)
 
     # Add the initial data
     # Dummy IDs are used because they don't matter and are automatically assigned by the database
     initial_movies = [
-        Movie(0, "Ghostbusters", 2016, AudienceRating.PG, 116, [Genre.COMEDY], 4, "Netflix"),
-        Movie(0, "The Legend of Tarzan", 2016, AudienceRating.PG, 109, [Genre.ACTION], 3, "Hulu"),
+        Movie(0, "Ghostbusters", 2016, AudienceRating.PG, 116, [Genre.COMEDY, Genre.HORROR], 4, "Netflix"),
+        Movie(0, "The Legend of Tarzan", 2016, AudienceRating.PG, 109, [Genre.ACTION, Genre.ADVENTURE], 3, "Hulu"),
         Movie(0, "Jason Bourne", 2016, AudienceRating.PG, 123, [Genre.ACTION], 4, "Amazon Prime"),
         Movie(0, "The Nice Guys", 2016, AudienceRating.R13, 116, [Genre.CRIME], 4, "HBO Max"),
         Movie(0, "The Secret Life of Pets", 2016, AudienceRating.G, 91, [Genre.ANIMATION], 3, "Disney+"),
@@ -95,8 +95,8 @@ def reset():
     insert_initial_data()
 
 
-def insert(movie: Movie):
-    """Add an entry to the database."""
+def insert(movie: Movie) -> int:
+    """Add an entry to the database and return the ID of the entry."""
     # According to ChatGPT, this is safer than using python string interpolation
     query = f"""
     INSERT INTO {MOVIES_TABLE} (Name, ReleaseYear, AudienceRating, Runtime, Genre, StarRating, WhereToWatch) VALUES
@@ -106,15 +106,18 @@ def insert(movie: Movie):
     parameters = (
         movie.name,
         movie.release_year,
-        movie.get_audience_rating_value(),
+        movie.audience_rating_db,
         movie.runtime,
-        movie.get_genre_string(),
+        movie.genre_db,
         movie.star_rating,
         movie.where_to_watch,
     )
 
-    database.execute(query, parameters)
+    cursor = database.cursor()
+    cursor.execute(query, parameters)
     database.commit()
+
+    return cursor.lastrowid
 
 
 def edit(new_movie: Movie):
@@ -134,9 +137,9 @@ def edit(new_movie: Movie):
     parameters = (
         new_movie.name,
         new_movie.release_year,
-        new_movie.get_audience_rating_value(),
+        new_movie.audience_rating_db,
         new_movie.runtime,
-        new_movie.get_genre_string(),
+        new_movie.genre_db,
         new_movie.star_rating,
         new_movie.where_to_watch,
         new_movie.id,
@@ -154,7 +157,7 @@ def delete(id: int):
 
 def get(id: int) -> Movie:
     """Get an entry from the database via ID."""
-    response = database.execute(
+    movie = database.execute(
         f"""
     SELECT ID, Name, ReleaseYear, AudienceRating, Runtime, Genre, StarRating, WhereToWatch
         FROM {MOVIES_TABLE} WHERE ID = ?;
@@ -162,10 +165,10 @@ def get(id: int) -> Movie:
         (id,),
     ).fetchone()
 
-    if response is None:
+    if movie is None:
         return None
 
-    return Movie(response[0], response[1], response[2], response[3], response[4], response[5], response[6], response[7])
+    return Movie(movie[0], movie[1], movie[2], AudienceRating.from_int(movie[3]), movie[4], Genre.list_from_str(movie[5]), movie[6], movie[7])
 
 
 def get_all() -> list[Movie]:
@@ -175,15 +178,15 @@ def get_all() -> list[Movie]:
         FROM {MOVIES_TABLE};
     """)
 
-    return [Movie(movie[0], movie[1], movie[2], movie[3], movie[4], movie[5], movie[6], movie[7]) for movie in response]
+    return [Movie(movie[0], movie[1], movie[2], AudienceRating.from_int(movie[3]), movie[4], Genre.list_from_str(movie[5]), movie[6], movie[7]) for movie in response]
 
 
-def get_filter(attribute: str, query: str) -> list[Movie]:
+def get_filter(field: str, query: str) -> list[Movie]:
     """Get all entries from the database with a filter."""
     response = database.execute(f"""
     SELECT ID, Name, ReleaseYear, AudienceRating, Runtime, Genre, StarRating, WhereToWatch
         FROM {MOVIES_TABLE}
-        WHERE {attribute} = ?;
+        WHERE RTRIM({field}) LIKE '%' || RTRIM(?) || '%' COLLATE NOCASE;
     """, (query,))
 
-    return [Movie(movie[0], movie[1], movie[2], movie[3], movie[4], movie[5], movie[6], movie[7]) for movie in response]
+    return [Movie(movie[0], movie[1], movie[2], AudienceRating.from_int(movie[3]), movie[4], Genre.list_from_str(movie[5]), movie[6], movie[7]) for movie in response]
