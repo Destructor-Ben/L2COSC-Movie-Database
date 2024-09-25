@@ -4,7 +4,7 @@ import mdb_console as console
 import mdb_database as db
 import mdb_ui as ui
 from mdb_commands import Command, commands
-from mdb_movie import AudienceRating, Genre, MovieField, Movie
+from mdb_movie import MovieField, Movie
 
 
 class InsertPage(ui.Page):
@@ -64,28 +64,11 @@ class InsertPage(ui.Page):
         """Get the prompt for the user for the given movie field."""
         return self.current_field.get_insert_prompt()
 
-    # TODO: pressing enter after the movie is added will crash the program
-    # TODO: when there is an error, the messages aren't reprinted
-    def render(self):
-        """Render the page."""
-        message_x = 2
-        message_y = 2
-
-        # Draw the info showing the after it is added
-        if self.movie_added:
-            console.write(message_x, message_y, "Movie successfully added:", ui.COLOUR_BLUE)
-            console.write(message_x, message_y + 1, self.movie)
-            return
-
-        # Draw the prompt for the user
-        message = self.get_prompt()
-        for line in message.split("\n"):
-            console.write(message_x, message_y, line, ui.COLOUR_BLUE)
-            message_y += 1
-
-        # Don't use input if the user hasn't even been asked yet
-        if self.first_open:
-            self.first_open = False
+    def handle_input(self):
+        """Handle the page's input."""
+        # Don't use input if the user hasn't even been prompted yet
+        # Also don't handle input if the movie has been added already
+        if self.first_open or self.movie_added:
             return
 
         # If we just asked the user for input, get it and validate it
@@ -101,9 +84,31 @@ class InsertPage(ui.Page):
         self.movie_fields[self.current_field] = user_input
 
         # Get the next field for the movie
-        # TODO: the movie index is wrong and offset by 1
         self.current_field_index += 1
         
         # Add the movie if we have reached the end of the required fields
         if self.current_field_index >= len(InsertPage.MOVIE_FIELDS):
             self.on_finish_input()
+
+    def render(self):
+        """Render the page."""
+        message_x = 2
+        message_y = 2
+
+        self.handle_input()
+
+        # This is used to stop the input from running on the "insert" command
+        if self.first_open:
+            self.first_open = False
+
+        # Draw the info showing the after it is added
+        if self.movie_added:
+            console.write(message_x, message_y, "Movie successfully added:", ui.COLOUR_BLUE)
+            console.write(message_x, message_y + 1, self.movie)
+            return
+
+        # Draw the prompt for the user
+        message = self.get_prompt()
+        for line in message.split("\n"):
+            console.write(message_x, message_y, line, ui.COLOUR_BLUE)
+            message_y += 1
