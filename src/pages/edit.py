@@ -18,7 +18,7 @@ class EditPage(ui.Page):
 
     def __init__(self):
         """Create a page."""
-        super().__init__("Edit", 10, 10)
+        super().__init__("Edit")
 
     @staticmethod
     def command_edit(movie_id):

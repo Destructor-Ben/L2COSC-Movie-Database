@@ -16,7 +16,7 @@ class DeletePage(ui.Page):
 
     def __init__(self, movie_id):
         """Create a page."""
-        super().__init__("Delete", 10, 10)
+        super().__init__("Delete")
         self.movie_id = movie_id
 
         self.global_commands_available = False

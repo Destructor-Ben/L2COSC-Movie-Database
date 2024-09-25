@@ -27,7 +27,7 @@ class InsertPage(ui.Page):
 
     def __init__(self):
         """Create a page."""
-        super().__init__("Insert", 10, 10)
+        super().__init__("Insert")
         self.getting_input = True
         # The index in MOVIE_FIELDS we are currently searching for
         self.current_field_index = 0

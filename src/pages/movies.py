@@ -18,7 +18,7 @@ class AllMoviesPage(ui.Page):
 
     def __init__(self):
         """Create a page."""
-        super().__init__("Movie List", 10, 10)
+        super().__init__("Movie List")
         self.movie_index = 0
 
         self.commands.append(Command("w", AllMoviesPage.command_up))

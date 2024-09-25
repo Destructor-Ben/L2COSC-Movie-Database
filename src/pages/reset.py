@@ -16,7 +16,7 @@ class ResetPage(ui.Page):
 
     def __init__(self):
         """Create a page."""
-        super().__init__("Reset", 10, 10)
+        super().__init__("Reset")
         self.global_commands_available = False
         self.commands.append(Command("yes", ResetPage.command_yes))
         self.commands.append(Command("no", ResetPage.command_no))

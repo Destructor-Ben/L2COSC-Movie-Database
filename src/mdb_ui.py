@@ -45,12 +45,10 @@ COLOUR_LIGHT_BLUE = (158, 203, 242)
 class Page:
     """An abstract enscapsulation of a page."""
 
-    def __init__(self, name: str, min_width: int, min_height: int):
+    def __init__(self, name: str):
         """Create a page."""
         # Immutable
         self.name = name
-        self.min_width = min_width
-        self.min_height = min_height
 
         # Mutable
         self.error_message = None
@@ -102,9 +100,11 @@ def render_current_page():
     if not console.is_running:
         return
 
-    # Check if the console is too small
-    if console.width < current_page.min_width or console.height < current_page.min_height:
-        size_hint = f"({console.width}x{console.height} instead of {current_page.min_width}x{current_page.min_height})"
+    # Check if the console is too small - Values are based on the size of the largest page, the homepage
+    min_width = 90
+    min_height = 17
+    if console.width < min_width or console.height < min_height:
+        size_hint = f"({console.width}x{console.height} instead of {min_width}x{min_height})"
         console.write(0, 0, f"Error: Console too small to render page {size_hint}", COLOUR_RED)
         return
 

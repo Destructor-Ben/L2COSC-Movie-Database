@@ -17,7 +17,7 @@ class MoviePage(ui.Page):
 
     def __init__(self, movie_id):
         """Create a page."""
-        super().__init__("Movie", 10, 10)
+        super().__init__("Movie")
         self.movie_id = movie_id
         self.movie = db.get(movie_id)
 
