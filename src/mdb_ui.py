@@ -3,6 +3,8 @@
 import mdb_commands as commands
 import mdb_console as console
 
+# TODO: go through error messages
+
 # Made from https://patorjk.com/software/taag/#p=display&f=Slant%20Relief&t=MDB
 # Made pretty with this: https://stackoverflow.com/questions/10660435/how-do-i-split-the-definition-of-a-long-string-over-multiple-lines
 LOGO = (
