@@ -28,7 +28,7 @@ class SearchPage(AllMoviesPage):
         """Go to the search page."""
         # Check that the given movie field exists
         movie_field = MovieField.from_str(field)
-        if movie_field is None:
+        if movie_field is None or movie_field is MovieField.ID:
             # TODO: give user feedback for what is a valid field - these are too long
             ui.current_page.error_message = f"Invalid movie field '{field}' - Must be name, release_year, audience_rating, runtime, genre, star_rating, or where_to_watch"
             return
