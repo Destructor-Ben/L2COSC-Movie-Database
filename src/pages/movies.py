@@ -45,7 +45,7 @@ class AllMoviesPage(ui.Page):
         return console.height - AllMoviesPage.PADDING * 2 - 1
 
     def get_movies(self):
-        """Get the movies to be displayed"""
+        """Get the movies to be displayed."""
         return db.get_all()
 
     def render(self):
@@ -67,6 +67,7 @@ class AllMoviesPage(ui.Page):
             self.movie_index = 0
 
         max_index = num_movies - number_of_rows
+        max_index += 1  # Add 1 for the end of list indicator
 
         # Also need to clamp the max index, since if there are more rows than movies, it goes negative
         if max_index < 0:
@@ -75,24 +76,31 @@ class AllMoviesPage(ui.Page):
         if self.movie_index > max_index:
             self.movie_index = max_index
 
-        # Draw the list
-        # 1 addded for the message about how to scroll
-        # TODO: align everything
-        # TODO: add an end of list indicator
-        # TODO: add an empty list indicator
-        # TODO: possible make the up and down commands be "up" and "down" instead of w and s
-        # TODO: possibly make the up and down commands error if they can't scroll (user feedback)
+        # Calculate the padding - 1 addded for the message about how to scroll
         movie_y = AllMoviesPage.PADDING + 1
-        for i in range(self.movie_index, num_movies):
+
+        # Draw the empty list indicator
+        if num_movies <= 0:
+            console.write(2, movie_y, "No movies found", ui.COLOUR_RED)
+            return
+
+        # Draw the list - 1 added for the end of list indicator
+        for i in range(self.movie_index, num_movies + 1):
             # Subtract the first value in the range to get a 0 based index of what is actually shown on screen
             index_drawn_in_list = i - self.movie_index
             if index_drawn_in_list >= number_of_rows:
                 break
 
             # Exit the loop if we have gone too far
-            if i >= num_movies:
+            if i > num_movies:
                 break
 
+            # End of list indicator
+            if i == num_movies:
+                text = "[End of list]"
+            else:
+                text = movies[i]
+
             # Draw
-            console.write(2, movie_y, movies[i])
+            console.write(2, movie_y, text)
             movie_y += 1
