@@ -13,7 +13,7 @@ class MoviePage(ui.Page):
     @staticmethod
     def setup():
         """Initialize the page."""
-        commands.append(Command("movie", MoviePage.command_movie))
+        commands.append(Command("view", MoviePage.command_movie))
 
     def __init__(self, movie_id):
         """Create a page."""
