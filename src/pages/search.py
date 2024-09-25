@@ -36,7 +36,7 @@ class SearchPage(AllMoviesPage):
         # Check that the query itself is valid
         (is_valid, _, error_message) = movie_field.validate_field(query)
         if not is_valid:
-            ui.current_page.error_message = f"Invalid movie query ({query}) - {error_message}"
+            ui.current_page.error_message = f"Invalid movie query '{query}' - {error_message}"
             return
 
         # Go to the page
