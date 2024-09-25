@@ -29,8 +29,8 @@ class SearchPage(AllMoviesPage):
         # Check that the given movie field exists
         movie_field = MovieField.from_str(field)
         if movie_field is None:
-            # TODO: give user feedback for what is a valid field
-            ui.current_page.error_message = f"Invalid movie field ({field})"
+            # TODO: give user feedback for what is a valid field - these are too long
+            ui.current_page.error_message = f"Invalid movie field '{field}' - Must be name, release_year, audience_rating, runtime, genre, star_rating, or where_to_watch"
             return
 
         # Check that the query itself is valid
@@ -44,4 +44,6 @@ class SearchPage(AllMoviesPage):
 
     def get_movies(self):
         """Get the movies to be displayed."""
-        return db.get_filter(self.field.database_name, self.query)
+        # TODO: test properly
+        is_text_comparison = self.field in [MovieField.NAME, MovieField.WHERE_TO_WATCH]
+        return db.get_filter(self.field.database_name, self.query, is_text_comparison)

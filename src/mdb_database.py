@@ -181,12 +181,16 @@ def get_all() -> list[Movie]:
     return [Movie(movie[0], movie[1], movie[2], AudienceRating.from_int(movie[3]), movie[4], Genre.list_from_str(movie[5]), movie[6], movie[7]) for movie in response]
 
 
-def get_filter(field: str, query: str) -> list[Movie]:
+def get_filter(field: str, query: str, compare_str: bool = False) -> list[Movie]:
     """Get all entries from the database with a filter."""
     response = database.execute(f"""
     SELECT ID, Name, ReleaseYear, AudienceRating, Runtime, Genre, StarRating, WhereToWatch
         FROM {MOVIES_TABLE}
-        WHERE RTRIM({field}) LIKE '%' || RTRIM(?) || '%' COLLATE NOCASE;
+        {
+            f"WHERE RTRIM({field}) LIKE '%' || RTRIM(?) || '%' COLLATE NOCASE;"
+            if compare_str else
+            f"WHERE {field} = ?;"
+        }
     """, (query,))
 
     return [Movie(movie[0], movie[1], movie[2], AudienceRating.from_int(movie[3]), movie[4], Genre.list_from_str(movie[5]), movie[6], movie[7]) for movie in response]
