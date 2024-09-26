@@ -84,8 +84,8 @@ class MoviePage(ui.Page):
             command_x = -widest_command
 
         # Calculate the x and y position
-        x = (console.width - width + command_x) // 2
-        y = (console.height - height) // 2
+        x = round((console.width - width + command_x) / 2)
+        y = round((console.height - height) / 2)
 
         # Draw a border
         for border_x in range(width):
@@ -107,8 +107,9 @@ class MoviePage(ui.Page):
 
         # Name and blank gap
         name = self.movie.name
-        name_x_offset = (width - len(name) - 2) // 2
-        console.write(x + name_x_offset, y, name, ui.COLOUR_GREEN)
+        name_x_offset = round((width - len(name)) / 2)
+        # Subtract 2 in the offset because of the existing shift of the field
+        console.write(x - 2 + name_x_offset, y, name, ui.COLOUR_GREEN)
         y += 2
 
         # Rest of the fields
