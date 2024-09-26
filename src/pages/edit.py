@@ -6,8 +6,6 @@ from mdb_movie import MovieField
 from mdb_commands import Command, commands
 from pages.insert import InsertPage
 
-# TODO: don't force the name to get edited
-
 
 class EditPage(InsertPage):
     """The edit page of the UI."""
