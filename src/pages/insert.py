@@ -38,6 +38,8 @@ class InsertPage(ui.Page):
         self.movie = None
         # Stops us wrongly using "insert" as the initial user input
         self.first_open = True
+        # Make sure the name is enforced
+        self.enforce_name = True
 
     @staticmethod
     def command_insert():
@@ -64,6 +66,10 @@ class InsertPage(ui.Page):
         """Get the prompt for the user for the given movie field."""
         return self.current_field.get_insert_prompt()
 
+    def get_complete_message(self) -> str:
+        """Get the message to be displayed when the movie is added."""
+        return "Movie successfully added:"
+
     def handle_input(self):
         """Handle the page's input."""
         # Don't use input if the user hasn't even been prompted yet
@@ -73,7 +79,7 @@ class InsertPage(ui.Page):
 
         # If we just asked the user for input, get it and validate it
         # Validate the input
-        (is_valid, user_input, error_message) = self.current_field.validate_field(console.user_input.strip())
+        (is_valid, user_input, error_message) = self.current_field.validate_field(console.user_input.strip(), self.enforce_name)
 
         # Return if it isn't valid
         if is_valid == False:
@@ -103,7 +109,7 @@ class InsertPage(ui.Page):
 
         # Draw the info showing the after it is added
         if self.movie_added:
-            console.write(message_x, message_y, "Movie successfully added:", ui.COLOUR_BLUE)
+            console.write(message_x, message_y, self.get_complete_message(), ui.COLOUR_BLUE)
             console.write(message_x, message_y + 1, self.movie)
             return
 
