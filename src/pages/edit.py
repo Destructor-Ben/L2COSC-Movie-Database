@@ -7,6 +7,7 @@ from mdb_commands import Command, commands
 from pages.insert import InsertPage
 
 
+# TODO: allow removing fields
 class EditPage(InsertPage):
     """The edit page of the UI."""
 
