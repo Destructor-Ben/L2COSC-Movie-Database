@@ -5,6 +5,7 @@ import enum
 import mdb_ui as ui
 
 
+# TODO: make in insert and edit menus make it clearer what these stand for, e.g. PG -> Parental Guidance
 class AudienceRating(enum.Enum):
     """An enum representing a rating for an audience."""
 
