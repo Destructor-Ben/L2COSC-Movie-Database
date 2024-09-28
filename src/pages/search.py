@@ -33,17 +33,15 @@ class SearchPage(AllMoviesPage):
             ui.current_page.error_message = f"Invalid movie field '{field}' - Must be name, release_year, audience_rating, runtime, genre, star_rating, or where_to_watch"
             return
 
-        # Check that the query itself is valid
-        (is_valid, _, error_message) = movie_field.validate_field(query)
+        # Check that the query is valid
+        (is_valid, parsed_query, error_message) = movie_field.validate_field(query)
         if not is_valid:
             ui.current_page.error_message = f"Invalid movie query '{query}' - {error_message}"
             return
 
         # Go to the page
-        ui.current_page = SearchPage(movie_field, query)
+        ui.current_page = SearchPage(movie_field, parsed_query)
 
     def get_movies(self):
         """Get the movies to be displayed."""
-        # TODO: test properly
-        is_text_comparison = self.field in [MovieField.NAME, MovieField.WHERE_TO_WATCH]
-        return db.get_filter(self.field.database_name, self.query, is_text_comparison)
+        return db.get_filter(self.field, self.query)

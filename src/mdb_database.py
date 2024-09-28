@@ -2,7 +2,7 @@
 
 import sqlite3
 
-from mdb_movie import AudienceRating, Genre, Movie
+from mdb_movie import AudienceRating, Genre, Movie, MovieField
 
 MOVIES_TABLE = "MOVIES"
 
@@ -181,16 +181,48 @@ def get_all() -> list[Movie]:
     return [Movie(movie[0], movie[1], movie[2], AudienceRating.from_int(movie[3]), movie[4], Genre.list_from_str(movie[5]), movie[6], movie[7]) for movie in response]
 
 
-def get_filter(field: str, query: str, compare_str: bool = False) -> list[Movie]:
+def get_filter(field: MovieField, query: any) -> list[Movie]:
     """Get all entries from the database with a filter."""
-    response = database.execute(f"""
+    # Enums would otherwise compare the string query to an int in the database
+    if field == MovieField.AUDIENCE_RATING:
+        query = query.value
+
+    # Construct the filter
+    use_sql_params = True
+    if field in [MovieField.NAME, MovieField.WHERE_TO_WATCH]:
+        # Only compare certain fields by text comparison
+        sql_filter = f"WHERE RTRIM({field.database_name}) LIKE '%' || RTRIM(?) || '%' COLLATE NOCASE"
+    elif field == MovieField.GENRE:
+        # Calculate the filters
+        filters = []
+        for genre in query:
+            # :0:, :0, and 0: because the first and last genres don't have trailing/leading colons
+            # Also need an equals in case it is the only genre
+            g = genre.value
+            patterns = [
+                f"LIKE '%:{g}'",
+                f"LIKE '{g}:%'",
+                f"LIKE '%:{g}:%'",
+                f"= '{g}'"
+            ]
+
+            for pattern in patterns:
+                filters.append(f"{field.database_name} {pattern}")
+
+        sql_filter =  "WHERE " + " OR ".join(filters) + " COLLATE NOCASE"
+        use_sql_params = False
+    else:
+        sql_filter = f"WHERE {field.database_name} = ?"
+
+    sql_query = f"""
     SELECT ID, Name, ReleaseYear, AudienceRating, Runtime, Genre, StarRating, WhereToWatch
         FROM {MOVIES_TABLE}
-        {
-            f"WHERE RTRIM({field}) LIKE '%' || RTRIM(?) || '%' COLLATE NOCASE;"
-            if compare_str else
-            f"WHERE {field} = ?;"
-        }
-    """, (query,))
+        {sql_filter};
+    """
+
+    if use_sql_params:
+        response = database.execute(sql_query, (query,))
+    else:
+        response = database.execute(sql_query)
 
     return [Movie(movie[0], movie[1], movie[2], AudienceRating.from_int(movie[3]), movie[4], Genre.list_from_str(movie[5]), movie[6], movie[7]) for movie in response]
