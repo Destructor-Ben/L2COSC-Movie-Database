@@ -8,6 +8,7 @@ from pages.movies import AllMoviesPage
 
 
 # The code for this is basically the same as the movie list, so we copy it
+# TODO: show the query
 class SearchPage(AllMoviesPage):
     """The search page of the UI."""
 
