@@ -63,6 +63,7 @@ class AudienceRating(enum.Enum):
                 return "NC-18"
 
 
+# TODO: remove duplicates when validating, sort the list when recieving, implement a max length for the number of genres
 class Genre(enum.Enum):
     """An enum representing a genre of a movie."""
 
