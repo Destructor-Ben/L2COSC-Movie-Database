@@ -164,6 +164,14 @@ def set(
     if x >= width or y >= height or x < -width or y < -height:
         return
 
+    # Ensure only 1 character
+    if len(char) > 1:
+        char = char[0]
+
+    # Disallow newlines, returns, and tabs
+    if char == "\n" or char == "\t" or char == "\r":
+        return
+
     # Write to the buffers
     buffer[x][y] = char
     fg_colours[x][y] = fg_colour
@@ -178,8 +186,8 @@ def write(
     bg_colour: tuple[int, int, int] | None = None,
 ):
     """Write the given text to the buffer at the given coordinate."""
-    # Make negative indicies positive, since it makes negative x coordinates better
-    # Otherwise, they warp across the rught of the screen to the left
+    # Make negative indices positive, since it makes negative x coordinates better
+    # Otherwise, they warp across the right of the screen to the left
     while x < 0:
         x += width
 
