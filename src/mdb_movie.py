@@ -430,6 +430,7 @@ class Movie:
 
     @property
     def star_rating_string(self) -> str:
+        """Get a string of 5 stars representing the star rating of this movie."""
         return f"{ui.FULL_STAR_CHAR * self.star_rating}{ui.EMPTY_STAR_CHAR * (5 - self.star_rating)}"
 
     @property

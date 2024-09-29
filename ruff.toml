@@ -12,5 +12,5 @@ select = [
     "D",
 ]
 
-# These have compat issues with other rules
-ignore = ["D203", "D213"]
+# These have compat issues with other rules, the last one is about exceptions and pisses me off
+ignore = ["D203", "D213", "E722"]

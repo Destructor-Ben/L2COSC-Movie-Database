@@ -84,7 +84,8 @@ class InsertPage(ui.Page):
         )
 
         # Return if it isn't valid
-        if is_valid == False:
+        # Instead of not is_valid, do this because is_valid could be None
+        if is_valid == False:  # noqa: E712
             self.error_message = error_message
             return
 
