@@ -4,7 +4,6 @@ import mdb_console as console
 import mdb_database as db
 import mdb_ui as ui
 from mdb_commands import Command, commands, get_available_commands
-from mdb_movie import MovieField, Movie
 
 
 class MoviePage(ui.Page):

@@ -197,7 +197,7 @@ class MovieField(enum.Enum):
 
     def validate_field(self, user_input: str, enforce_name: bool = False) -> tuple[bool, any, str | None]:
         """Check if the given user input is valid for this movie field.
-        
+
         Returns a tuple: (Valid (None if the field isn't required), ParsedValue, ErrorMessage | None)
         """
         # Convert empty input into None if it's empty
@@ -215,7 +215,7 @@ class MovieField(enum.Enum):
 
                 if len(user_input) > 100:
                     return (False, user_input, "The entered movie name is longer than 100 characters")
-                
+
                 return (True, user_input, None)
             case MovieField.RELEASE_YEAR:
                 # Make this optional

@@ -4,7 +4,7 @@ import mdb_console as console
 import mdb_database as db
 import mdb_ui as ui
 from mdb_commands import Command, commands
-from mdb_movie import MovieField, Movie
+from mdb_movie import Movie, MovieField
 
 
 class InsertPage(ui.Page):
@@ -79,7 +79,9 @@ class InsertPage(ui.Page):
 
         # If we just asked the user for input, get it and validate it
         # Validate the input
-        (is_valid, user_input, error_message) = self.current_field.validate_field(console.user_input.strip(), self.enforce_name)
+        (is_valid, user_input, error_message) = self.current_field.validate_field(
+            console.user_input.strip(), self.enforce_name
+        )
 
         # Return if it isn't valid
         if is_valid == False:
@@ -91,7 +93,7 @@ class InsertPage(ui.Page):
 
         # Get the next field for the movie
         self.current_field_index += 1
-        
+
         # Add the movie if we have reached the end of the required fields
         if self.current_field_index >= len(InsertPage.MOVIE_FIELDS):
             self.on_finish_input()

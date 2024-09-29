@@ -2,9 +2,9 @@
 
 import mdb_database as db
 import mdb_ui as ui
-from pages.movies import AllMoviesPage
 from mdb_commands import Command, commands
 from mdb_movie import MovieField
+from pages.movies import AllMoviesPage
 
 
 # The code for this is basically the same as the movie list, so we copy it

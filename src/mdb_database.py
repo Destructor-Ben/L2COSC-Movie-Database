@@ -168,7 +168,16 @@ def get(id: int) -> Movie:
     if movie is None:
         return None
 
-    return Movie(movie[0], movie[1], movie[2], AudienceRating.from_int(movie[3]), movie[4], Genre.list_from_str(movie[5]), movie[6], movie[7])
+    return Movie(
+        movie[0],
+        movie[1],
+        movie[2],
+        AudienceRating.from_int(movie[3]),
+        movie[4],
+        Genre.list_from_str(movie[5]),
+        movie[6],
+        movie[7],
+    )
 
 
 def get_all() -> list[Movie]:
@@ -178,7 +187,19 @@ def get_all() -> list[Movie]:
         FROM {MOVIES_TABLE};
     """)
 
-    return [Movie(movie[0], movie[1], movie[2], AudienceRating.from_int(movie[3]), movie[4], Genre.list_from_str(movie[5]), movie[6], movie[7]) for movie in response]
+    return [
+        Movie(
+            movie[0],
+            movie[1],
+            movie[2],
+            AudienceRating.from_int(movie[3]),
+            movie[4],
+            Genre.list_from_str(movie[5]),
+            movie[6],
+            movie[7],
+        )
+        for movie in response
+    ]
 
 
 def get_filter(field: MovieField, query: any) -> list[Movie]:
@@ -199,17 +220,12 @@ def get_filter(field: MovieField, query: any) -> list[Movie]:
             # :0:, :0, and 0: because the first and last genres don't have trailing/leading colons
             # Also need an equals in case it is the only genre
             g = genre.value
-            patterns = [
-                f"LIKE '%:{g}'",
-                f"LIKE '{g}:%'",
-                f"LIKE '%:{g}:%'",
-                f"= '{g}'"
-            ]
+            patterns = [f"LIKE '%:{g}'", f"LIKE '{g}:%'", f"LIKE '%:{g}:%'", f"= '{g}'"]
 
             for pattern in patterns:
                 filters.append(f"{field.database_name} {pattern}")
 
-        sql_filter =  "WHERE " + " OR ".join(filters) + " COLLATE NOCASE"
+        sql_filter = "WHERE " + " OR ".join(filters) + " COLLATE NOCASE"
         use_sql_params = False
     else:
         sql_filter = f"WHERE {field.database_name} = ?"
@@ -225,4 +241,16 @@ def get_filter(field: MovieField, query: any) -> list[Movie]:
     else:
         response = database.execute(sql_query)
 
-    return [Movie(movie[0], movie[1], movie[2], AudienceRating.from_int(movie[3]), movie[4], Genre.list_from_str(movie[5]), movie[6], movie[7]) for movie in response]
+    return [
+        Movie(
+            movie[0],
+            movie[1],
+            movie[2],
+            AudienceRating.from_int(movie[3]),
+            movie[4],
+            Genre.list_from_str(movie[5]),
+            movie[6],
+            movie[7],
+        )
+        for movie in response
+    ]

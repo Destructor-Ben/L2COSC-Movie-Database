@@ -2,8 +2,8 @@
 
 import mdb_database as db
 import mdb_ui as ui
-from mdb_movie import MovieField
 from mdb_commands import Command, commands
+from mdb_movie import MovieField
 from pages.insert import InsertPage
 
 
